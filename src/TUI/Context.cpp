@@ -1,5 +1,6 @@
 #include "Context.hpp"
 #include <iostream>
+#include <ncurses.h>
 
 void StartContext::handle_input()
 {
@@ -8,7 +9,8 @@ void StartContext::handle_input()
 
 void StartContext::draw() const
 {
-    std::cout << "Hello";
+    mvaddstr(10, 20, "hello");
+    refresh();
 }
 
 CONTEXT_ID StartContext::next() const

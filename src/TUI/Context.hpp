@@ -3,6 +3,7 @@
 enum CONTEXT_ID
 {
     START,
+    END
 };
 
 class Context
