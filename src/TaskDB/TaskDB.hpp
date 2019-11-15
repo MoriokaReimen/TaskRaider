@@ -6,10 +6,12 @@ struct Task
 {
     std::string title;
     std::string detail;
+    int progress;
 };
 
 class TaskDB
 {
+    std::vector<Task> tasks_;
     bool is_open_;
 public:
     TaskDB();
@@ -18,7 +20,7 @@ public:
     void closeFile();
     bool isOpen() const;
     Task queryTask(const int& id) const;
-    bool registerTask(const Task& task);
+    int registerTask(const Task& task);
 
 };
 

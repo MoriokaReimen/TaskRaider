@@ -12,7 +12,13 @@ TaskDB::~TaskDB()
 
 bool TaskDB::openFile(const std::string& file)
 {
+    for(int i = 0; i < 100; ++i)
+    {
+        this->tasks_.push_back({"Sample", "Sample Task", 30});
+    }
     this->is_open_ = true;
+
+    return true;
 }
 
 void TaskDB::closeFile()
@@ -28,11 +34,19 @@ bool TaskDB::isOpen() const
 
 Task TaskDB::queryTask(const int& id) const
 {
-    return {"Eat Lunch", "Don't skip meal"};
-
+    return this->tasks_[id];
 }
 
-bool TaskDB::registerTask(const Task& task)
+int TaskDB::registerTask(const Task& task)
 {
-    return true;
+    int id;
+    try {
+        this->tasks_.push_back(task);
+        id =  this->tasks_.size();
+
+    } catch(...)
+    {
+        id = -1;
+    }
+    return id;
 }
