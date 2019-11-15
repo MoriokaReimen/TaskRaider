@@ -1,8 +1,12 @@
 #include <iostream>
+#include "Globals.hpp"
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
+    while(Globals::tui.is_open())
+    {
+        Globals::tui.update();
+    }
 
     return 0;
 }
