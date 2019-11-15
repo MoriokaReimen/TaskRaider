@@ -1,4 +1,5 @@
 #include "Context.hpp"
+#include "Globals.hpp"
 #include <iostream>
 #include <ncurses.h>
 
@@ -10,7 +11,9 @@ void StartContext::handle_input()
 
 void StartContext::draw() const
 {
-    mvaddstr(10, 20, "hello");
+    attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    mvwprintw(stdscr, 0, 0, "| Task Title          | priority | Importance | Progress                |");
+    mvwprintw(stdscr, 1, 0, "|---------------------|----------|------------|-------------------------|");
     refresh();
 }
 

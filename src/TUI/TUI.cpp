@@ -1,4 +1,5 @@
 #include "TUI.hpp"
+#include "Globals.hpp"
 #include <ncurses.h>
 
 TUI::TUI()
@@ -6,10 +7,18 @@ TUI::TUI()
 {
     /*Initialize ncurses*/
     initscr(); // Initialize screen
+    start_color(); // start color mode
     cbreak(); // get one charcter at once
     nodelay(stdscr, TRUE); // non blocking getch()
     noecho(); // supress echo
     keypad(stdscr, TRUE); // get special keys
+
+    /*Initialize Color pairs*/
+    for(auto color : Globals::ALL_COLOR)
+    {
+        init_pair(color.idx, color.fg, color.bg);
+    }
+
     /*Initialize Contexts*/
     this->contexts_.insert( {START, std::make_shared<StartContext>()});
 
