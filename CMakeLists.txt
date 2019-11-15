@@ -3,6 +3,9 @@ project(TaskRaider)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STADARD_REQUIRED True)
 
+# General Setting
+include_directories("src/")
+
 # TaskDB Library
 file(GLOB TASKDB_SRC "src/TaskDB/*.cpp" "src/TASKDB/*.hpp")
 add_library( taskdb STATIC ${TASKDB_SRC} )
