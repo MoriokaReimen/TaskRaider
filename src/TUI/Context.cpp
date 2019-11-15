@@ -4,6 +4,7 @@
 
 void StartContext::handle_input()
 {
+    last_key_ = getch();
 
 }
 
@@ -15,5 +16,11 @@ void StartContext::draw() const
 
 CONTEXT_ID StartContext::next() const
 {
-    return START;
+    switch(last_key_)
+    {
+        case 'q':
+            return END;
+        default:
+            return START;
+    }
 }

@@ -7,6 +7,7 @@ TUI::TUI()
     /*Initialize ncurses*/
     initscr(); // Initialize screen
     cbreak(); // get one charcter at once
+    nodelay(stdscr, TRUE); // non blocking getch()
     noecho(); // supress echo
     keypad(stdscr, TRUE); // get special keys
     /*Initialize Contexts*/

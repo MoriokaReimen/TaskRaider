@@ -18,6 +18,7 @@ public:
 
 class StartContext : public Context
 {
+    int last_key_;
 public:
     void handle_input() override;
     void draw() const override;
