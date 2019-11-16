@@ -11,6 +11,7 @@ TUI::TUI()
     initscr(); // Initialize screen
     start_color(); // start color mode
     cbreak(); // get one charcter at once
+    curs_set(0); // hide cursor
     nodelay(stdscr, TRUE); // non blocking getch()
     noecho(); // supress echo
     keypad(stdscr, TRUE); // get special keys
