@@ -9,6 +9,7 @@ public:
     int increment_selection();
     int decrement_selection();
     void draw() const;
+    int get_selection() const;
 
 };
 

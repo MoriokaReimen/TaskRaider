@@ -56,3 +56,8 @@ void TaskView::draw() const
         }
     }
 }
+
+int TaskView::get_selection() const
+{
+     return this->selection_;
+}

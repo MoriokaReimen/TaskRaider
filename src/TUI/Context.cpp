@@ -41,16 +41,16 @@ ContextInfo StartContext::next() const
     switch(last_key_)
     {
         case 'q':
-            return ContextInfo{START, END, 0};
+            return ContextInfo{START, END, this->task_view_.get_selection()};
             break;
         case 'c':
-            return ContextInfo{START, CREATE, 0};
+            return ContextInfo{START, CREATE, this->task_view_.get_selection()};
             break;
         case 'e':
-            return ContextInfo{START, EDIT, 0};
+            return ContextInfo{START, EDIT, this->task_view_.get_selection()};
             break;
         default:
-            return ContextInfo{START, START, 0};
+            return ContextInfo{START, START, this->task_view_.get_selection()};
             break;
     }
 
