@@ -154,3 +154,15 @@ ContextInfo EditContext::next() const
 
 }
 
+void EditContext::on_exit(const ContextInfo& info)
+{
+    if(info.current != EDIT)
+    {
+        Task task;
+        task.title = this->title_;
+        task.detail = this->detail_;
+        // task.progress = this->progress_;
+        task.progress = 100;
+        Globals::taskdb.updateTask(this->task_id_, task);
+    }
+}

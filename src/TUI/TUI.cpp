@@ -38,11 +38,13 @@ TUI::~TUI()
 
 void TUI::update()
 {
+    ContextInfo info = this->info_;
     using namespace std::chrono_literals;
-    this->contexts_[this->info_.current]->on_entry(this->info_);
-    this->contexts_[this->info_.current]->handle_input();
-    this->contexts_[this->info_.current]->draw();
-    this->info_ = this->contexts_[this->info_.current]->next();
+    this->contexts_[info.current]->on_entry(this->info_);
+    this->contexts_[info.current]->handle_input();
+    this->contexts_[info.current]->draw();
+    this->info_ = this->contexts_[info.current]->next();
+    this->contexts_[info.current]->on_exit(this->info_);
     std::this_thread::sleep_for(0.08s);
 }
 
