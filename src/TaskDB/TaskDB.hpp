@@ -20,6 +20,7 @@ public:
     ~TaskDB();
     bool openFile(const std::string& file);
     void closeFile();
+    bool saveFile(const std::string& file);
     bool isOpen() const;
     Task queryTask(const int& id) const;
     int registerTask(const Task& task);
