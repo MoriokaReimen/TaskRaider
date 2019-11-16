@@ -24,6 +24,7 @@ public:
     bool isOpen() const;
     Task queryTask(const int& id) const;
     int registerTask(const Task& task);
+    bool updateTask(const int& id, const Task& task);
     int size() const;
 
 };

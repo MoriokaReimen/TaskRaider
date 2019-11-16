@@ -115,6 +115,19 @@ int TaskDB::registerTask(const Task& task)
     return id;
 }
 
+bool TaskDB::updateTask(const int& id, const Task& task)
+{
+    bool ret;
+    try {
+        this->tasks_[id] = task;
+        ret = true;
+    } catch(...)
+    {
+        ret = false;
+    }
+    return ret;
+}
+
 int TaskDB::size() const
 {
     return this->tasks_.size();
