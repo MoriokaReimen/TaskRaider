@@ -25,6 +25,7 @@ TUI::TUI()
     /*Initialize Contexts*/
     this->contexts_.insert( {START, std::make_shared<StartContext>()});
     this->contexts_.insert( {CREATE, std::make_shared<CreateContext>()});
+    this->contexts_.insert( {EDIT, std::make_shared<EditContext>()});
 
 }
 

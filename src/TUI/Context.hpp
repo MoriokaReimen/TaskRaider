@@ -5,6 +5,7 @@ enum CONTEXT_ID
 {
     START,
     CREATE,
+    EDIT,
     END
 };
 
@@ -34,6 +35,16 @@ class CreateContext : public Context
     int last_key_;
 public:
     CreateContext();
+    void handle_input() override;
+    void draw() const override;
+    CONTEXT_ID next()const override;
+};
+
+class EditContext : public Context
+{
+    int last_key_;
+public:
+    EditContext();
     void handle_input() override;
     void draw() const override;
     CONTEXT_ID next()const override;
