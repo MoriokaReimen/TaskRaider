@@ -1,6 +1,8 @@
 #include "TUI.hpp"
 #include "Globals.hpp"
 #include <ncurses.h>
+#include <thread>
+#include <chrono>
 
 TUI::TUI()
     : is_open_(true), context_id_(START)
@@ -33,9 +35,11 @@ TUI::~TUI()
 
 void TUI::update()
 {
+    using namespace std::chrono_literals;
     this->contexts_[this->context_id_]->handle_input();
     this->contexts_[this->context_id_]->draw();
     this->context_id_ = this->contexts_[this->context_id_]->next();
+    std::this_thread::sleep_for(0.08s);
 }
 
 bool TUI::is_open() const

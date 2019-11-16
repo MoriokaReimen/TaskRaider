@@ -14,7 +14,11 @@ namespace Globals
     {
         DEFAULT_COLOR = 1,
         BORDER_COLOR,
-        WARNING_COLOR
+        WARNING_COLOR,
+        SELECT_COLOR,
+        RED_COLOR,
+        YELLOW_COLOR,
+        BLUE_COLOR
     };
-    extern const std::array<Color, 3> ALL_COLOR;
+    extern const std::array<Color, 7> ALL_COLOR;
 }

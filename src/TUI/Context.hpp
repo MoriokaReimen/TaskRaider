@@ -1,4 +1,5 @@
 #pragma once
+#include "TaskView.hpp"
 
 enum CONTEXT_ID
 {
@@ -18,8 +19,10 @@ public:
 
 class StartContext : public Context
 {
+    TaskView task_view_;
     int last_key_;
 public:
+    StartContext();
     void handle_input() override;
     void draw() const override;
     CONTEXT_ID next()const override;

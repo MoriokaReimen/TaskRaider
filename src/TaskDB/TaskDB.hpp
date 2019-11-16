@@ -7,6 +7,8 @@ struct Task
     std::string title;
     std::string detail;
     int progress;
+    Task();
+    const Task& operator=(const Task& other);
 };
 
 class TaskDB
@@ -21,6 +23,7 @@ public:
     bool isOpen() const;
     Task queryTask(const int& id) const;
     int registerTask(const Task& task);
+    int size() const;
 
 };
 
