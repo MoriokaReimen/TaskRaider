@@ -36,21 +36,21 @@ void StartContext::draw() const
     refresh();
 }
 
-CONTEXT_ID StartContext::next() const
+ContextInfo StartContext::next() const
 {
     switch(last_key_)
     {
         case 'q':
-            return END;
+            return ContextInfo{START, END, 0};
             break;
         case 'c':
-            return CREATE;
+            return ContextInfo{START, CREATE, 0};
             break;
         case 'e':
-            return EDIT;
+            return ContextInfo{START, EDIT, 0};
             break;
         default:
-            return START;
+            return ContextInfo{START, START, 0};
             break;
     }
 
@@ -88,23 +88,36 @@ void CreateContext::draw() const
     refresh();
 }
 
-CONTEXT_ID CreateContext::next() const
+ContextInfo CreateContext::next() const
 {
     switch(last_key_)
     {
         case 'q':
-            return START;
+            return ContextInfo{CREATE, START, 0};
             break;
         default:
-            return CREATE;
+            return ContextInfo{CREATE, CREATE, 0};
             break;
     }
 
 }
 
 /* EditContext ************************************************************************************/
+void EditContext::on_entry(const ContextInfo& info)
+{
+    if(info.old != EDIT)
+    {
+        Task task;
+        task = Globals::taskdb.queryTask(info.task_id);
+        this->task_id_ = info.task_id;
+        this->title_ = task.title;
+        this->detail_ = task.detail;
+        this->progress_ = task.progress;
+    }
+}
+
 EditContext::EditContext()
-    : last_key_(0)
+    : task_id_(0), last_key_(0)
 {
 
 }
@@ -112,39 +125,30 @@ EditContext::EditContext()
 void EditContext::handle_input()
 {
     last_key_ = getch();
-    switch(last_key_)
-    {
-        case 'k':
-            break;
-        case 'j':
-            break;
-        default:
-            break;
-    }
 }
 
 void EditContext::draw() const
 {
     clear();
     attron(COLOR_PAIR(Globals::SELECT_COLOR));
-    mvwprintw(stdscr, 0, 0, "Now you are editing Task ID: ");
+    mvwprintw(stdscr, 0, 0, "Now you are editing Task ID: %04d", task_id_);
     attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
-    mvwprintw(stdscr, 0, 0, "Now you are editing Task ID: ");
-    mvwprintw(stdscr, 1, 0, "Task TITLE: ");
-    mvwprintw(stdscr, 2, 0, "Task DETAIL: ");
-    mvwprintw(stdscr, 30, 0,"Task PROGRESS: ");
+    mvwprintw(stdscr, 1, 0, "Task TITLE: %s", this->title_.c_str());
+    mvwprintw(stdscr, 2, 0, "Task DETAIL:");
+    mvwprintw(stdscr, 3, 0, "%s", this->detail_.c_str());
+    mvwprintw(stdscr, 30, 0,"Task PROGRESS: %d%%", this->progress_);
     refresh();
 }
 
-CONTEXT_ID EditContext::next() const
+ContextInfo EditContext::next() const
 {
     switch(last_key_)
     {
         case 'q':
-            return START;
+            return ContextInfo{EDIT, START, 0};
             break;
         default:
-            return EDIT;
+            return ContextInfo{EDIT, EDIT, 0};
             break;
     }
 

@@ -5,7 +5,7 @@
 #include <chrono>
 
 TUI::TUI()
-    : is_open_(true), context_id_(START)
+    : is_open_(true), info_{START, START, 0}
 {
     /*Initialize ncurses*/
     initscr(); // Initialize screen
@@ -39,13 +39,14 @@ TUI::~TUI()
 void TUI::update()
 {
     using namespace std::chrono_literals;
-    this->contexts_[this->context_id_]->handle_input();
-    this->contexts_[this->context_id_]->draw();
-    this->context_id_ = this->contexts_[this->context_id_]->next();
+    this->contexts_[this->info_.current]->on_entry(this->info_);
+    this->contexts_[this->info_.current]->handle_input();
+    this->contexts_[this->info_.current]->draw();
+    this->info_ = this->contexts_[this->info_.current]->next();
     std::this_thread::sleep_for(0.08s);
 }
 
 bool TUI::is_open() const
 {
-    return this->context_id_ != END;
+    return this->info_.current != END;
 }

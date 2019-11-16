@@ -7,7 +7,7 @@ class TUI
 {
     std::map<CONTEXT_ID, std::shared_ptr<Context>> contexts_;
     bool is_open_;
-    CONTEXT_ID context_id_;
+    ContextInfo info_;
 public:
     TUI();
     ~TUI();
