@@ -3,6 +3,6 @@
 
 namespace Globals
 {
-    extern TUI tui;
+extern TUI tui;
 
 }

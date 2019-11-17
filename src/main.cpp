@@ -3,8 +3,7 @@
 
 int main()
 {
-    while(Globals::tui.is_open())
-    {
+    while(Globals::tui.is_open()) {
         Globals::tui.update();
     }
 

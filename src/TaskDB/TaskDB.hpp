@@ -2,8 +2,7 @@
 #include <vector>
 #include <string>
 
-struct Task
-{
+struct Task {
     std::string title;
     std::string detail;
     int progress;

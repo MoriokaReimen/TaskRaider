@@ -26,19 +26,16 @@ int TaskView::decrement_selection()
 
 void TaskView::draw() const
 {
-    for(int line = 0; line < SHOW_COLUM; line++)
-    {
+    for(int line = 0; line < SHOW_COLUM; line++) {
         int task_id = (selection_ - selection_ % SHOW_COLUM) + line;
         if(task_id >= Globals::taskdb.size()) break;
         Task task;
         task = Globals::taskdb.queryTask(task_id);
 
         /*show task_id, task title and detail*/
-        if(task_id == selection_)
-        {
+        if(task_id == selection_) {
             attron(COLOR_PAIR(Globals::SELECT_COLOR));
-        } else
-        {
+        } else {
             attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
         }
         mvwprintw(stdscr, line + 2, 0,  "| %05d", task_id);
@@ -53,8 +50,7 @@ void TaskView::draw() const
         Globals::COLOR_IDX color = task.progress < 30 ? COLOR_IDX::RED_COLOR :
                                    task.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
                                    COLOR_IDX::BLUE_COLOR;
-        for(int i = 0; i < task.progress / 10; ++i)
-        {
+        for(int i = 0; i < task.progress / 10; ++i) {
             attron(COLOR_PAIR(color));
             mvwprintw(stdscr, line + 2, 59 + i, " ");
         }
@@ -63,5 +59,5 @@ void TaskView::draw() const
 
 int TaskView::get_selection() const
 {
-     return this->selection_;
+    return this->selection_;
 }

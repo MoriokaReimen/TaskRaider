@@ -2,6 +2,6 @@
 
 namespace Globals
 {
-    TUI tui;
+TUI tui;
 
 };

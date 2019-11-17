@@ -2,16 +2,14 @@
 #include "TaskView.hpp"
 #include <string>
 
-enum CONTEXT_ID
-{
+enum CONTEXT_ID {
     START,
     CREATE,
     EDIT,
     END
 };
 
-struct ContextInfo
-{
+struct ContextInfo {
     CONTEXT_ID old;
     CONTEXT_ID current;
     int task_id;

@@ -20,8 +20,7 @@ TUI::TUI()
     keypad(stdscr, TRUE); // get special keys
 
     /*Initialize Color pairs*/
-    for(auto color : Globals::ALL_COLOR)
-    {
+    for(auto color : Globals::ALL_COLOR) {
         init_pair(color.idx, color.fg, color.bg);
     }
 

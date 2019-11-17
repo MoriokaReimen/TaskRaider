@@ -33,8 +33,7 @@ bool TaskDB::openFile(const std::string& file)
         const auto data = toml::parse("sample.toml");
         const auto tasks = toml::find<std::vector<toml::table>>(data, "TASK");
 
-        for(const auto& data : tasks)
-        {
+        for(const auto& data : tasks) {
             Task temp;
             temp.title = data.at("title").as_string();
             temp.detail = data.at("detail").as_string();
@@ -42,8 +41,7 @@ bool TaskDB::openFile(const std::string& file)
             this->tasks_.emplace_back(temp);
         }
         this->is_open_ = true;
-    } catch(...)
-    {
+    } catch(...) {
         this->is_open_ = false;
     }
 
@@ -55,8 +53,7 @@ bool TaskDB::saveFile(const std::string& file)
     bool ret;
     toml::array out_data;
     try {
-        for(const auto& data : this->tasks_)
-        {
+        for(const auto& data : this->tasks_) {
             toml::table temp{
                 {"title", data.title},
                 {"detail", data.detail},
@@ -69,8 +66,7 @@ bool TaskDB::saveFile(const std::string& file)
         ofs << write_data;
         ofs.close();
         ret = true;
-    } catch(...)
-    {
+    } catch(...) {
         ret = false;
     }
 
@@ -94,8 +90,7 @@ Task TaskDB::queryTask(const int& id) const
     Task task;
     try {
         task = this->tasks_[id];
-    } catch(...)
-    {
+    } catch(...) {
     }
 
     return task;
@@ -108,8 +103,7 @@ int TaskDB::registerTask(const Task& task)
         this->tasks_.push_back(task);
         id =  this->tasks_.size() - 1;
 
-    } catch(...)
-    {
+    } catch(...) {
         id = -1;
     }
     return id;
@@ -121,8 +115,7 @@ bool TaskDB::updateTask(const int& id, const Task& task)
     try {
         this->tasks_[id] = task;
         ret = true;
-    } catch(...)
-    {
+    } catch(...) {
         ret = false;
     }
     return ret;
