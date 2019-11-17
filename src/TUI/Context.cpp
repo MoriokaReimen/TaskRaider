@@ -1,5 +1,6 @@
 #include "Context.hpp"
 #include "Globals.hpp"
+#include "Util.hpp"
 #include <iostream>
 #include <ncurses.h>
 
@@ -41,7 +42,11 @@ ContextInfo StartContext::next() const
     switch(last_key_)
     {
         case 'q':
-            return ContextInfo{START, END, this->task_view_.get_selection()};
+            if(ok_dialogue("Do you want to quit?")){
+                return ContextInfo{START, END, this->task_view_.get_selection()};
+            } else {
+                return ContextInfo{START, START, this->task_view_.get_selection()};
+            }
             break;
         case 'c':
             return ContextInfo{START, CREATE, this->task_view_.get_selection()};
