@@ -3,7 +3,7 @@
 #include <fstream>
 
 Task::Task()
-    : title(), detail(), progress(0)
+    : title(), priority(3), urgency(3), detail(), progress(0)
 {
 
 }
@@ -12,6 +12,8 @@ const Task& Task::operator=(const Task& other)
 {
     this->title = other.title;
     this->detail = other.detail;
+    this->priority = other.priority;
+    this->urgency = other.urgency;
     this->progress = other.progress;
     return *this;
 }
@@ -37,6 +39,8 @@ bool TaskDB::openFile(const std::string& file)
             Task temp;
             temp.title = data.at("title").as_string();
             temp.detail = data.at("detail").as_string();
+            temp.priority = data.at("priority").as_integer();
+            temp.urgency = data.at("urgency").as_integer();
             temp.progress = data.at("progress").as_integer();
             this->tasks_.emplace_back(temp);
         }
@@ -57,6 +61,8 @@ bool TaskDB::saveFile(const std::string& file)
             toml::table temp{
                 {"title", data.title},
                 {"detail", data.detail},
+                {"priority", data.priority},
+                {"urgency", data.urgency},
                 {"progress", data.progress},
             };
             out_data.push_back(temp);
