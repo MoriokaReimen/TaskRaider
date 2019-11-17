@@ -38,6 +38,7 @@ void StartContext::draw() const
     attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     mvwprintw(stdscr, 0, 0, "| Task ID | Title              | Detail           | Progress                |");
     mvwprintw(stdscr, 1, 0, "|---------|--------------------|------------------|-------------------------|");
+    printDateTime(35, 0);
     task_view_.draw();
     refresh();
 }

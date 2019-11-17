@@ -2,7 +2,12 @@
 #include "Globals.hpp"
 #include <ncurses.h>
 #include <algorithm>
+#include <chrono>
+#include <sstream>
 #include <array>
+#include <ctime>
+#include <iomanip>
+#include <locale>
 
 bool ok_dialogue(const std::string& message)
 {
@@ -108,4 +113,13 @@ int int_dialogue(const std::string& message, const int& min, const int& max)
     curs_set(0); // hide cursor
 
     return ret;
+}
+
+void printDateTime(const int y, const int x)
+{
+    const auto now = std::chrono::system_clock::now();
+    const auto int_time_now = std::chrono::system_clock::to_time_t(now);
+    std::stringstream ss;
+    ss << std::put_time(std::localtime(&int_time_now), "%Y-%m-%d %X");
+    mvwprintw(stdscr, y, x, "%s", ss.str().c_str());
 }
