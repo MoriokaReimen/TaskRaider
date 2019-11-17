@@ -141,6 +141,23 @@ void EditContext::handle_input()
             selection_++;
             selection_ = std::clamp(selection_, 0, 2);
             break;
+        case 'e':
+            editTask();
+            break;
+        case 'l':
+            if(selection_ == 2)
+            {
+                this->progress_ += 10;
+                this->progress_= std::clamp(this->progress_, 0, 100);
+            }
+            break;
+        case 'h':
+            if(selection_ == 2)
+            {
+                this->progress_ -= 10;
+                this->progress_= std::clamp(this->progress_, 0, 100);
+            }
+            break;
         default:
             break;
     }
@@ -199,8 +216,23 @@ void EditContext::on_exit(const ContextInfo& info)
         Task task;
         task.title = this->title_;
         task.detail = this->detail_;
-        // task.progress = this->progress_;
-        task.progress = 100;
+        task.progress = this->progress_;
         Globals::taskdb.updateTask(this->task_id_, task);
+    }
+}
+
+void EditContext::editTask()
+{
+    switch(this->selection_)
+    {
+        case 0:
+            this->title_ = line_dialogue("Task Title");;
+            break;
+        case 1:
+            this->detail_ = line_dialogue("Task Detail");;;
+            break;
+        case 2:
+            this->progress_ = int_dialogue("Input Progress", 0, 100);
+            break;
     }
 }

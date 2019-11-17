@@ -58,6 +58,7 @@ class EditContext : public Context
     int progress_;
     int last_key_;
     int selection_;
+    void editTask();
 public:
     EditContext();
     virtual void on_entry(const ContextInfo& info) override;
