@@ -9,6 +9,9 @@ MinED
 # *.toml files
 *.toml
 
+# *.orig files
+*.orig
+
 # Cmake Temporary files
 CMakeCache.txt
 CMakeFiles/*
