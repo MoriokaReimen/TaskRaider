@@ -43,10 +43,12 @@ void TaskView::draw() const
         }
         mvwprintw(stdscr, line + 2, 0,  "| %05d", task_id);
         mvwprintw(stdscr, line + 2, 10, "| %-18s", task.title.c_str());
-        mvwprintw(stdscr, line + 2, 31, "| %-18s ",task.detail.c_str());
+        mvwprintw(stdscr, line + 2, 31, "| %-18.18s ",task.detail.c_str());
 
         /*show task progress with bar*/
         using Globals::COLOR_IDX;
+        wmove(stdscr, line + 2, 50);
+        wclrtoeol(stdscr);
         mvwprintw(stdscr, line + 2, 50, "| %3d%%", task.progress);
         Globals::COLOR_IDX color = task.progress < 30 ? COLOR_IDX::RED_COLOR :
                                    task.progress < 60 ? COLOR_IDX::YELLOW_COLOR :

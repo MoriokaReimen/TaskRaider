@@ -64,7 +64,7 @@ bool TaskDB::saveFile(const std::string& file)
             };
             out_data.push_back(temp);
         }
-        toml::value write_data(out_data);
+        toml::value write_data{{"TASK", out_data}};
         std::ofstream ofs(file);
         ofs << write_data;
         ofs.close();

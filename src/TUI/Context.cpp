@@ -23,6 +23,11 @@ void StartContext::handle_input()
         case 'j':
             task_view_.increment_selection();
             break;
+        case 's':
+            if(ok_dialogue("Save Task Data?")){
+                Globals::taskdb.saveFile("sample.toml");
+            }
+            break;
         default:
             break;
     }
