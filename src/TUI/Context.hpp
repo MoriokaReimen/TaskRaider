@@ -57,6 +57,7 @@ class EditContext : public Context
     std::string detail_;
     int progress_;
     int last_key_;
+    int selection_;
 public:
     EditContext();
     virtual void on_entry(const ContextInfo& info) override;

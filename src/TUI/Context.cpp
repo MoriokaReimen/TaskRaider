@@ -1,6 +1,7 @@
 #include "Context.hpp"
 #include "Globals.hpp"
 #include "Util.hpp"
+#include <algorithm>
 #include <iostream>
 #include <ncurses.h>
 
@@ -108,6 +109,12 @@ ContextInfo CreateContext::next() const
 }
 
 /* EditContext ************************************************************************************/
+EditContext::EditContext()
+    : task_id_(0), last_key_(0), selection_(0)
+{
+
+}
+
 void EditContext::on_entry(const ContextInfo& info)
 {
     if(info.old != EDIT)
@@ -121,15 +128,22 @@ void EditContext::on_entry(const ContextInfo& info)
     }
 }
 
-EditContext::EditContext()
-    : task_id_(0), last_key_(0)
-{
-
-}
-
 void EditContext::handle_input()
 {
     last_key_ = getch();
+    switch(last_key_)
+    {
+        case 'k':
+            selection_--;
+            selection_ = std::clamp(selection_, 0, 2);
+            break;
+        case 'j':
+            selection_++;
+            selection_ = std::clamp(selection_, 0, 2);
+            break;
+        default:
+            break;
+    }
 }
 
 void EditContext::draw() const
@@ -137,11 +151,30 @@ void EditContext::draw() const
     clear();
     attron(COLOR_PAIR(Globals::SELECT_COLOR));
     mvwprintw(stdscr, 0, 0, "Now you are editing Task ID: %04d", task_id_);
-    attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
-    mvwprintw(stdscr, 1, 0, "Task TITLE: %s", this->title_.c_str());
-    mvwprintw(stdscr, 2, 0, "Task DETAIL:");
-    mvwprintw(stdscr, 3, 0, "%s", this->detail_.c_str());
-    mvwprintw(stdscr, 30, 0,"Task PROGRESS: %d%%", this->progress_);
+
+    if(selection_ == 0)
+    {
+        attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    } else {
+        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    }
+    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->title_.c_str());
+
+    if(selection_ == 1)
+    {
+        attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    } else {
+        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    }
+    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->detail_.c_str());
+
+    if(selection_ == 2)
+    {
+        attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    } else {
+        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    }
+    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->progress_);
     refresh();
 }
 
