@@ -49,6 +49,9 @@ ContextInfo StartContext::next() const
     {
         case 'q':
             if(ok_dialogue("Do you want to quit?")){
+                if(ok_dialogue("Save Task Data?")){
+                    Globals::taskdb.saveFile("sample.toml");
+                }
                 return ContextInfo{START, END, this->task_view_.get_selection()};
             } else {
                 return ContextInfo{START, START, this->task_view_.get_selection()};

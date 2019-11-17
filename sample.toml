@@ -10,3 +10,7 @@ title = "HOGE"
 progress = 90
 detail = "FUGA"
 title = "HOGE"
+[[TASK]]
+progress = 30
+detail = "それがどうした"
+title = "ほげほげ"
