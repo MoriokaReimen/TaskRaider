@@ -50,7 +50,7 @@ void TaskView::draw() const
         Globals::COLOR_IDX color = task.progress < 30 ? COLOR_IDX::RED_COLOR :
                                    task.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
                                    COLOR_IDX::BLUE_COLOR;
-        for(int i = 0; i < task.progress / 10; ++i) {
+        for(int i = 0; i < task.progress / 5; ++i) {
             attron(COLOR_PAIR(color));
             mvwprintw(stdscr, line + 2, 59 + i, " ");
         }
