@@ -38,3 +38,4 @@ bool ok_dialogue(const std::string& message)
 
     return ret;
 }
+

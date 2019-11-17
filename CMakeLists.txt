@@ -19,3 +19,8 @@ file(GLOB MAIN_SRC "src/*.cpp" "src/*.hpp")
 add_executable( TaskRaider ${MAIN_SRC} )
 target_link_libraries(TaskRaider tui taskdb ncurses)
 
+# MINED Executables
+file(GLOB MINED_SRC "src/MinED/*.cpp" "src/MinED/*.hpp")
+add_executable( MinED ${MINED_SRC} )
+target_link_libraries(MinED tui taskdb ncurses)
+
