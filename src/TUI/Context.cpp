@@ -68,8 +68,12 @@ ContextInfo StartContext::next() const
 }
 
 /* CreateContext **********************************************************************************/
+void CreateContext::on_entry(const ContextInfo& info)
+{
+}
+
 CreateContext::CreateContext()
-    : last_key_(0)
+    : title_(), detail_(), progress_(0), last_key_(0), selection_(0)
 {
 
 }
@@ -80,8 +84,29 @@ void CreateContext::handle_input()
     switch(last_key_)
     {
         case 'k':
+            selection_--;
+            selection_ = std::clamp(selection_, 0, 2);
             break;
         case 'j':
+            selection_++;
+            selection_ = std::clamp(selection_, 0, 2);
+            break;
+        case 'e':
+            editTask();
+            break;
+        case 'l':
+            if(selection_ == 2)
+            {
+                this->progress_ += 10;
+                this->progress_= std::clamp(this->progress_, 0, 100);
+            }
+            break;
+        case 'h':
+            if(selection_ == 2)
+            {
+                this->progress_ -= 10;
+                this->progress_= std::clamp(this->progress_, 0, 100);
+            }
             break;
         default:
             break;
@@ -91,11 +116,32 @@ void CreateContext::handle_input()
 void CreateContext::draw() const
 {
     clear();
-    attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
-    mvwprintw(stdscr, 0, 0, "Task ID: ");
-    mvwprintw(stdscr, 1, 0, "Task TITLE: ");
-    mvwprintw(stdscr, 2, 0, "Task DETAIL: ");
-    mvwprintw(stdscr, 30, 0,"Task PROGRESS: ");
+    attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    mvwprintw(stdscr, 0, 0, "Now you are Creating New Task:");
+
+    if(selection_ == 0)
+    {
+        attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    } else {
+        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    }
+    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->title_.c_str());
+
+    if(selection_ == 1)
+    {
+        attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    } else {
+        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    }
+    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->detail_.c_str());
+
+    if(selection_ == 2)
+    {
+        attron(COLOR_PAIR(Globals::SELECT_COLOR));
+    } else {
+        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    }
+    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->progress_);
     refresh();
 }
 
@@ -111,6 +157,34 @@ ContextInfo CreateContext::next() const
             break;
     }
 
+}
+
+void CreateContext::on_exit(const ContextInfo& info)
+{
+    if(info.current != CREATE)
+    {
+        Task task;
+        task.title = this->title_;
+        task.detail = this->detail_;
+        task.progress = this->progress_;
+        Globals::taskdb.registerTask(task);
+    }
+}
+
+void CreateContext::editTask()
+{
+    switch(this->selection_)
+    {
+        case 0:
+            this->title_ = line_dialogue("Task Title");;
+            break;
+        case 1:
+            this->detail_ = line_dialogue("Task Detail");;;
+            break;
+        case 2:
+            this->progress_ = int_dialogue("Input Progress", 0, 100);
+            break;
+    }
 }
 
 /* EditContext ************************************************************************************/

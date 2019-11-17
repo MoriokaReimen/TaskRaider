@@ -42,9 +42,16 @@ public:
 
 class CreateContext : public Context
 {
+    std::string title_;
+    std::string detail_;
+    int progress_;
     int last_key_;
+    int selection_;
+    void editTask();
 public:
     CreateContext();
+    virtual void on_entry(const ContextInfo& info) override;
+    virtual void on_exit(const ContextInfo& info) override;
     void handle_input() override;
     void draw() const override;
     ContextInfo next()const override;
