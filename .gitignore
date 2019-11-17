@@ -4,6 +4,7 @@
 *.a
 # Executable
 TaskRaider
+MinED
 
 
 # Cmake Temporary files
