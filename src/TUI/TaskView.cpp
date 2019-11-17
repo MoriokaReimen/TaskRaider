@@ -47,7 +47,7 @@ void TaskView::draw() const
         wmove(stdscr, line + 2, 50);
         wclrtoeol(stdscr);
         mvwprintw(stdscr, line + 2, 50, "| %3d%%", task.progress);
-        Globals::COLOR_IDX color = task.progress < 30 ? COLOR_IDX::RED_COLOR :
+        COLOR_IDX color = task.progress < 30 ? COLOR_IDX::RED_COLOR :
                                    task.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
                                    COLOR_IDX::BLUE_COLOR;
         for(int i = 0; i < task.progress / 5; ++i) {

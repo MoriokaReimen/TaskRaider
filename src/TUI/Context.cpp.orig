@@ -137,14 +137,6 @@ void CreateContext::draw() const
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
     mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->progress_);
-    using Globals::COLOR_IDX;
-    COLOR_IDX color = this->progress_ < 30 ? COLOR_IDX::RED_COLOR :
-                      this->progress_ < 60 ? COLOR_IDX::YELLOW_COLOR :
-                      COLOR_IDX::BLUE_COLOR;
-    for(int i = 0; i < (this->progress_ / 5); ++i) {
-        attron(COLOR_PAIR(color));
-        mvwprintw(stdscr, 5, 25 + i, " ");
-    }
     refresh();
 }
 
@@ -264,11 +256,11 @@ void EditContext::draw() const
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
     mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->progress_);
-    using Globals::COLOR_IDX;
+    using Globals;
     COLOR_IDX color = this->progress_ < 30 ? COLOR_IDX::RED_COLOR :
-                      this->progress_ < 60 ? COLOR_IDX::YELLOW_COLOR :
-                      COLOR_IDX::BLUE_COLOR;
-    for(int i = 0; i < (this->progress_ / 5); ++i) {
+                               this->progress_ < 60 ? COLOR_IDX::YELLOW_COLOR :
+                               COLOR_IDX::BLUE_COLOR;
+    for(int i = 0; i < this->progress / 5; ++i) {
         attron(COLOR_PAIR(color));
         mvwprintw(stdscr, 5, 25 + i, " ");
     }
