@@ -3,10 +3,13 @@
 #include <ncurses.h>
 #include <thread>
 #include <chrono>
+#include <locale>
 
 TUI::TUI()
     : is_open_(true), info_{START, START, 0}
 {
+    /*use utf8*/
+    std::setlocale(LC_ALL, "");
     /*Initialize ncurses*/
     initscr(); // Initialize screen
     start_color(); // start color mode
