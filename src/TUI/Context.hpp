@@ -1,4 +1,5 @@
 #pragma once
+#include "TaskDB/TaskDB.hpp"
 #include "TaskView.hpp"
 #include <string>
 
@@ -40,9 +41,7 @@ public:
 
 class CreateContext : public Context
 {
-    std::string title_;
-    std::string detail_;
-    int progress_;
+    Task task_;
     int last_key_;
     int selection_;
     void editTask();
@@ -57,10 +56,8 @@ public:
 
 class EditContext : public Context
 {
+    Task task_;
     int task_id_;
-    std::string title_;
-    std::string detail_;
-    int progress_;
     int last_key_;
     int selection_;
     void editTask();

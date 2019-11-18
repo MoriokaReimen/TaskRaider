@@ -75,7 +75,7 @@ void CreateContext::on_entry(const ContextInfo& info)
 }
 
 CreateContext::CreateContext()
-    : title_(), detail_(), progress_(0), last_key_(0), selection_(0)
+    : task_(), last_key_(0), selection_(0)
 {
 
 }
@@ -97,14 +97,14 @@ void CreateContext::handle_input()
         break;
     case 'l':
         if(selection_ == 2) {
-            this->progress_ += 10;
-            this->progress_= std::clamp(this->progress_, 0, 100);
+            this->task_.progress += 10;
+            this->task_.progress= std::clamp(this->task_.progress, 0, 100);
         }
         break;
     case 'h':
         if(selection_ == 2) {
-            this->progress_ -= 10;
-            this->progress_= std::clamp(this->progress_, 0, 100);
+            this->task_.progress -= 10;
+            this->task_.progress= std::clamp(this->task_.progress, 0, 100);
         }
         break;
     default:
@@ -123,26 +123,26 @@ void CreateContext::draw() const
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->title_.c_str());
+    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->task_.title.c_str());
 
     if(selection_ == 1) {
         attron(COLOR_PAIR(Globals::SELECT_COLOR));
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->detail_.c_str());
+    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->task_.detail.c_str());
 
     if(selection_ == 2) {
         attron(COLOR_PAIR(Globals::SELECT_COLOR));
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->progress_);
+    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->task_.progress);
     using Globals::COLOR_IDX;
-    COLOR_IDX color = this->progress_ < 30 ? COLOR_IDX::RED_COLOR :
-                      this->progress_ < 60 ? COLOR_IDX::YELLOW_COLOR :
+    COLOR_IDX color = this->task_.progress < 30 ? COLOR_IDX::RED_COLOR :
+                      this->task_.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
                       COLOR_IDX::BLUE_COLOR;
-    for(int i = 0; i < (this->progress_ / 5); ++i) {
+    for(int i = 0; i < (this->task_.progress / 5); ++i) {
         attron(COLOR_PAIR(color));
         mvwprintw(stdscr, 5, 25 + i, " ");
     }
@@ -165,10 +165,7 @@ ContextInfo CreateContext::next() const
 void CreateContext::on_exit(const ContextInfo& info)
 {
     if(info.current != CREATE) {
-        Task task;
-        task.title = this->title_;
-        task.detail = this->detail_;
-        task.progress = this->progress_;
+        Task task = this->task_;
         Globals::taskdb.registerTask(task);
     }
 }
@@ -177,13 +174,13 @@ void CreateContext::editTask()
 {
     switch(this->selection_) {
     case 0:
-        this->title_ = line_dialogue("Task Title");;
+        this->task_.title = line_dialogue("Task Title");;
         break;
     case 1:
-        this->detail_ = line_dialogue("Task Detail");;;
+        this->task_.detail = line_dialogue("Task Detail");;;
         break;
     case 2:
-        this->progress_ = int_dialogue("Input Progress", 0, 100);
+        this->task_.progress = int_dialogue("Input Progress", 0, 100);
         break;
     }
 }
@@ -199,11 +196,8 @@ void EditContext::on_entry(const ContextInfo& info)
 {
     if(info.old != EDIT) {
         Task task;
-        task = Globals::taskdb.queryTask(info.task_id);
+        this->task_ = Globals::taskdb.queryTask(info.task_id);
         this->task_id_ = info.task_id;
-        this->title_ = task.title;
-        this->detail_ = task.detail;
-        this->progress_ = task.progress;
     }
 }
 
@@ -224,14 +218,14 @@ void EditContext::handle_input()
         break;
     case 'l':
         if(selection_ == 2) {
-            this->progress_ += 10;
-            this->progress_= std::clamp(this->progress_, 0, 100);
+            this->task_.progress += 10;
+            this->task_.progress = std::clamp(this->task_.progress, 0, 100);
         }
         break;
     case 'h':
         if(selection_ == 2) {
-            this->progress_ -= 10;
-            this->progress_= std::clamp(this->progress_, 0, 100);
+            this->task_.progress -= 10;
+            this->task_.progress = std::clamp(this->task_.progress, 0, 100);
         }
         break;
     default:
@@ -250,26 +244,26 @@ void EditContext::draw() const
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->title_.c_str());
+    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->task_.title.c_str());
 
     if(selection_ == 1) {
         attron(COLOR_PAIR(Globals::SELECT_COLOR));
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->detail_.c_str());
+    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->task_.detail.c_str());
 
     if(selection_ == 2) {
         attron(COLOR_PAIR(Globals::SELECT_COLOR));
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->progress_);
+    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->task_.progress);
     using Globals::COLOR_IDX;
-    COLOR_IDX color = this->progress_ < 30 ? COLOR_IDX::RED_COLOR :
-                      this->progress_ < 60 ? COLOR_IDX::YELLOW_COLOR :
+    COLOR_IDX color = this->task_.progress < 30 ? COLOR_IDX::RED_COLOR :
+                      this->task_.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
                       COLOR_IDX::BLUE_COLOR;
-    for(int i = 0; i < (this->progress_ / 5); ++i) {
+    for(int i = 0; i < (this->task_.progress / 5); ++i) {
         attron(COLOR_PAIR(color));
         mvwprintw(stdscr, 5, 25 + i, " ");
     }
@@ -292,11 +286,7 @@ ContextInfo EditContext::next() const
 void EditContext::on_exit(const ContextInfo& info)
 {
     if(info.current != EDIT) {
-        Task task;
-        task.title = this->title_;
-        task.detail = this->detail_;
-        task.progress = this->progress_;
-        Globals::taskdb.updateTask(this->task_id_, task);
+        Globals::taskdb.updateTask(this->task_id_, this->task_);
     }
 }
 
@@ -304,13 +294,13 @@ void EditContext::editTask()
 {
     switch(this->selection_) {
     case 0:
-        this->title_ = line_dialogue("Task Title");;
+        this->task_.title = line_dialogue("Task Title");;
         break;
     case 1:
-        this->detail_ = line_dialogue("Task Detail");;;
+        this->task_.detail = line_dialogue("Task Detail");;;
         break;
     case 2:
-        this->progress_ = int_dialogue("Input Progress", 0, 100);
+        this->task_.progress = int_dialogue("Input Progress", 0, 100);
         break;
     }
 }
