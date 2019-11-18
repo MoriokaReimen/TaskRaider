@@ -36,8 +36,8 @@ void StartContext::draw() const
 {
     clear();
     attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
-    mvwprintw(stdscr, 0, 0, "| Task ID | Title              | Detail           | Progress                |");
-    mvwprintw(stdscr, 1, 0, "|---------|--------------------|------------------|-------------------------|");
+    mvwprintw(stdscr, 0, 0, "| Task ID | Title              | Detail           | Progress                  | P | U |");
+    mvwprintw(stdscr, 1, 0, "|---------|--------------------|------------------|---------------------------|---|---|");
     printDateTime(35, 0);
     task_view_.draw();
     refresh();
@@ -86,11 +86,11 @@ void CreateContext::handle_input()
     switch(last_key_) {
     case 'k':
         selection_--;
-        selection_ = std::clamp(selection_, 0, 2);
+        selection_ = std::clamp(selection_, 0, 4);
         break;
     case 'j':
         selection_++;
-        selection_ = std::clamp(selection_, 0, 2);
+        selection_ = std::clamp(selection_, 0, 4);
         break;
     case 'e':
         editTask();
@@ -100,11 +100,27 @@ void CreateContext::handle_input()
             this->task_.progress += 10;
             this->task_.progress= std::clamp(this->task_.progress, 0, 100);
         }
+        if(selection_ == 3) {
+            this->task_.priority += 1;
+            this->task_.priority = std::clamp(this->task_.priority, 0, 5);
+        }
+        if(selection_ == 4) {
+            this->task_.urgency += 1;
+            this->task_.urgency = std::clamp(this->task_.urgency, 0, 5);
+        }
         break;
     case 'h':
         if(selection_ == 2) {
             this->task_.progress -= 10;
             this->task_.progress= std::clamp(this->task_.progress, 0, 100);
+        }
+        if(selection_ == 3) {
+            this->task_.priority -= 1;
+            this->task_.priority = std::clamp(this->task_.priority, 0, 5);
+        }
+        if(selection_ == 4) {
+            this->task_.urgency -= 1;
+            this->task_.urgency = std::clamp(this->task_.urgency, 0, 5);
         }
         break;
     default:
@@ -137,14 +153,46 @@ void CreateContext::draw() const
     } else {
         attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
     }
-    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->task_.progress);
+    mvwprintw(stdscr, 4, 0,"Task PROGRESS: %d%%", this->task_.progress);
     using Globals::COLOR_IDX;
     COLOR_IDX color = this->task_.progress < 30 ? COLOR_IDX::RED_COLOR :
                       this->task_.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
                       COLOR_IDX::BLUE_COLOR;
     for(int i = 0; i < (this->task_.progress / 5); ++i) {
         attron(COLOR_PAIR(color));
-        mvwprintw(stdscr, 5, 25 + i, " ");
+        mvwprintw(stdscr, 4, 25 + i, " ");
+    }
+
+    /* draw priority */
+    {
+        if(selection_ == 3) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 5, 0,"Task PRIORITY: ");
+        using Globals::COLOR_IDX;
+        COLOR_IDX color = this->task_.priority < 2 ? COLOR_IDX::LOW_COLOR :
+                          this->task_.priority < 5 ? COLOR_IDX::MIDDLE_COLOR :
+                          COLOR_IDX::HIGH_COLOR;
+        attron(COLOR_PAIR(color));
+        wprintw(stdscr, "%d", this->task_.priority);
+    }
+
+    /* draw urgency */
+    {
+        if(selection_ == 4) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 6, 0,"Task URGENCY: ", this->task_.urgency);
+        using Globals::COLOR_IDX;
+        COLOR_IDX color = this->task_.urgency < 2 ? COLOR_IDX::LOW_COLOR :
+                          this->task_.urgency < 5 ? COLOR_IDX::MIDDLE_COLOR :
+                          COLOR_IDX::HIGH_COLOR;
+        attron(COLOR_PAIR(color));
+        wprintw(stdscr, "%d", this->task_.urgency);
     }
     refresh();
 }
@@ -182,6 +230,14 @@ void CreateContext::editTask()
     case 2:
         this->task_.progress = int_dialogue("Input Progress", 0, 100);
         break;
+    case 3:
+        this->task_.priority = int_dialogue("Input Priority", 0, 5);
+        break;
+    case 4:
+        this->task_.urgency = int_dialogue("Input Urgency", 0, 5);
+        break;
+    default:
+        break;
     }
 }
 
@@ -207,11 +263,11 @@ void EditContext::handle_input()
     switch(last_key_) {
     case 'k':
         selection_--;
-        selection_ = std::clamp(selection_, 0, 2);
+        selection_ = std::clamp(selection_, 0, 4);
         break;
     case 'j':
         selection_++;
-        selection_ = std::clamp(selection_, 0, 2);
+        selection_ = std::clamp(selection_, 0, 4);
         break;
     case 'e':
         editTask();
@@ -221,11 +277,27 @@ void EditContext::handle_input()
             this->task_.progress += 10;
             this->task_.progress = std::clamp(this->task_.progress, 0, 100);
         }
+        if(selection_ == 3) {
+            this->task_.priority += 1;
+            this->task_.priority = std::clamp(this->task_.priority, 0, 5);
+        }
+        if(selection_ == 4) {
+            this->task_.urgency += 1;
+            this->task_.urgency = std::clamp(this->task_.urgency, 0, 5);
+        }
         break;
     case 'h':
         if(selection_ == 2) {
             this->task_.progress -= 10;
             this->task_.progress = std::clamp(this->task_.progress, 0, 100);
+        }
+        if(selection_ == 3) {
+            this->task_.priority -= 1;
+            this->task_.priority = std::clamp(this->task_.priority, 0, 5);
+        }
+        if(selection_ == 4) {
+            this->task_.urgency -= 1;
+            this->task_.urgency = std::clamp(this->task_.urgency, 0, 5);
         }
         break;
     default:
@@ -236,36 +308,80 @@ void EditContext::handle_input()
 void EditContext::draw() const
 {
     clear();
-    attron(COLOR_PAIR(Globals::SELECT_COLOR));
-    mvwprintw(stdscr, 0, 0, "Now you are editing Task ID: %04d", task_id_);
-
-    if(selection_ == 0) {
+    /* draw task id */
+    {
         attron(COLOR_PAIR(Globals::SELECT_COLOR));
-    } else {
-        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        mvwprintw(stdscr, 0, 0, "Now you are editing Task ID: %04d", task_id_);
     }
-    mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->task_.title.c_str());
 
-    if(selection_ == 1) {
-        attron(COLOR_PAIR(Globals::SELECT_COLOR));
-    } else {
-        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    /* draw task title */
+    {
+        if(selection_ == 0) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 2, 0, "Task TITLE: %s", this->task_.title.c_str());
     }
-    mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->task_.detail.c_str());
 
-    if(selection_ == 2) {
-        attron(COLOR_PAIR(Globals::SELECT_COLOR));
-    } else {
-        attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+    /* draw task detail */
+    {
+        if(selection_ == 1) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 3, 0, "Task DETAIL:%s", this->task_.detail.c_str());
     }
-    mvwprintw(stdscr, 5, 0,"Task PROGRESS: %d%%", this->task_.progress);
-    using Globals::COLOR_IDX;
-    COLOR_IDX color = this->task_.progress < 30 ? COLOR_IDX::RED_COLOR :
-                      this->task_.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
-                      COLOR_IDX::BLUE_COLOR;
-    for(int i = 0; i < (this->task_.progress / 5); ++i) {
+
+    /* draw progress */
+    {
+        if(selection_ == 2) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 4, 0,"Task PROGRESS: %d%%", this->task_.progress);
+        using Globals::COLOR_IDX;
+        COLOR_IDX color = this->task_.progress < 30 ? COLOR_IDX::RED_COLOR :
+                          this->task_.progress < 60 ? COLOR_IDX::YELLOW_COLOR :
+                          COLOR_IDX::BLUE_COLOR;
+        for(int i = 0; i < (this->task_.progress / 5); ++i) {
+            attron(COLOR_PAIR(color));
+            mvwprintw(stdscr, 4, 25 + i, " ");
+        }
+    }
+
+    /* draw priority */
+    {
+        if(selection_ == 3) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 5, 0,"Task PRIORITY: ");
+        using Globals::COLOR_IDX;
+        COLOR_IDX color = this->task_.priority < 2 ? COLOR_IDX::LOW_COLOR :
+                          this->task_.priority < 5 ? COLOR_IDX::MIDDLE_COLOR :
+                          COLOR_IDX::HIGH_COLOR;
         attron(COLOR_PAIR(color));
-        mvwprintw(stdscr, 5, 25 + i, " ");
+        wprintw(stdscr, "%d", this->task_.priority);
+    }
+
+    /* draw urgency */
+    {
+        if(selection_ == 4) {
+            attron(COLOR_PAIR(Globals::SELECT_COLOR));
+        } else {
+            attron(COLOR_PAIR(Globals::DEFAULT_COLOR));
+        }
+        mvwprintw(stdscr, 6, 0,"Task URGENCY: ", this->task_.urgency);
+        using Globals::COLOR_IDX;
+        COLOR_IDX color = this->task_.urgency < 2 ? COLOR_IDX::LOW_COLOR :
+                          this->task_.urgency < 5 ? COLOR_IDX::MIDDLE_COLOR :
+                          COLOR_IDX::HIGH_COLOR;
+        attron(COLOR_PAIR(color));
+        wprintw(stdscr, "%d", this->task_.urgency);
     }
     refresh();
 }
@@ -301,6 +417,14 @@ void EditContext::editTask()
         break;
     case 2:
         this->task_.progress = int_dialogue("Input Progress", 0, 100);
+        break;
+    case 3:
+        this->task_.priority = int_dialogue("Input Priority", 0, 5);
+        break;
+    case 4:
+        this->task_.urgency = int_dialogue("Input Urgency", 0, 5);
+        break;
+    default:
         break;
     }
 }

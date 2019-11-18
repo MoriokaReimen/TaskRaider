@@ -17,7 +17,10 @@ enum COLOR_IDX {
     SELECT_COLOR,
     RED_COLOR,
     YELLOW_COLOR,
-    BLUE_COLOR
+    BLUE_COLOR,
+    HIGH_COLOR,
+    MIDDLE_COLOR,
+    LOW_COLOR
 };
-extern const std::array<Color, 7> ALL_COLOR;
+extern const std::array<Color, 10> ALL_COLOR;
 }
