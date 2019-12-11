@@ -3,6 +3,9 @@ project(TaskRaider)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STADARD_REQUIRED True)
 
+# building nana
+add_subdirectory(external/nana)
+
 # General Setting
 include_directories("src/")
 
