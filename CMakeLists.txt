@@ -18,7 +18,8 @@ file(GLOB TUI_SRC "src/TUI/*.cpp" "src/TUI/*.hpp")
 add_library( tui STATIC ${TUI_SRC} )
 
 # TaskRaider Executables
-file(GLOB MAIN_SRC "src/*.cpp" "src/*.hpp")
+file(GLOB MAIN_SRC "src/TUI_MAIN/*.cpp" "src/TUI_MAIN/*.hpp")
 add_executable( TaskRaider ${MAIN_SRC} )
 target_link_libraries(TaskRaider tui taskdb ncursesw)
+target_include_directories(TaskRaider PRIVATE "src/TUI_MAIN/")
 
