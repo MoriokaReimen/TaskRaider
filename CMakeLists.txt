@@ -15,3 +15,9 @@ file(GLOB TASKDB_SRC "src/TaskDB/*.cpp" "src/TASKDB/*.hpp")
 add_library( taskdb STATIC ${TASKDB_SRC})
 target_link_libraries(taskdb toml11)
 target_include_directories(taskdb PUBLIC "src/TaskDB/")
+
+# App Main
+file(GLOB MAIN_SRC "src/*.cpp" "src/*.hpp")
+add_executable(TaskRaider ${MAIN_SRC})
+target_link_libraries(TaskRaider taskdb)
+target_include_directories(TaskRaider PRIVATE src/)
