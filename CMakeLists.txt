@@ -16,8 +16,13 @@ add_library( taskdb STATIC ${TASKDB_SRC})
 target_link_libraries(taskdb toml11)
 target_include_directories(taskdb PUBLIC "src/TaskDB/")
 
+# GUI Library
+file(GLOB GUI_SRC "src/GUI/*.cpp" "src/GUI/*.hpp")
+add_library(gui STATIC ${GUI_SRC})
+target_include_directories(gui PUBLIC "src/GUI/" "src/")
+
 # App Main
 file(GLOB MAIN_SRC "src/*.cpp" "src/*.hpp")
 add_executable(TaskRaider ${MAIN_SRC})
-target_link_libraries(TaskRaider taskdb)
+target_link_libraries(TaskRaider taskdb gui)
 target_include_directories(TaskRaider PRIVATE src/)
