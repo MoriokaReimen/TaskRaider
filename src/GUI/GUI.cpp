@@ -4,6 +4,7 @@
 #include <cmath>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <StartContext.hpp>
 namespace GUI
 {
 GUI::GUI(TaskDB::TaskDB &task_db)
@@ -13,6 +14,7 @@ GUI::GUI(TaskDB::TaskDB &task_db)
     /* ocnfigure window setting */
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(static_cast<int>(FPS));
+    contexts_[CONTEXT::START] = std::make_shared<StartContext>(window_, task_db);
 }
 
 void GUI::loop()

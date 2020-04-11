@@ -15,6 +15,7 @@ enum CONTEXT
 
 class IContext
 {
+protected:
     TaskDB::TaskDB &task_db_;
     sf::RenderWindow &window_;
 
