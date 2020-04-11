@@ -3,7 +3,7 @@
 namespace TaskDB
 {
 Task::Task()
-    : title(), priority(3), urgency(3), detail(), progress(0)
+    : title(), priority(3), urgency(3), detail(), progress(0), children{}
 {
 }
 

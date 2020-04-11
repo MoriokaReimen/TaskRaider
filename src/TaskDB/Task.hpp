@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 namespace TaskDB
 {
@@ -10,6 +11,7 @@ struct Task
     int priority;
     int urgency;
     int progress;
+    std::vector<int> children;
     Task();
     const Task &operator=(const Task &other);
 };

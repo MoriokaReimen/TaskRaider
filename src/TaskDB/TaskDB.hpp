@@ -20,5 +20,6 @@ public:
     int registerTask(const Task &task);
     bool updateTask(const int &id, const Task &task);
     int size() const;
+    std::string render(const std::string& tmpl) const;
 };
 };

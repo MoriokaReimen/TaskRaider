@@ -129,4 +129,11 @@ int TaskDB::size() const
 {
     return this->tasks_.size();
 }
+
+std::string TaskDB::render(const std::string &tmpl) const
+{
+    std::string message;
+
+    return message;
+}
 };
