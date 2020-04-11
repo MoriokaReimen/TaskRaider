@@ -10,10 +10,13 @@
 
 namespace GUI
 {
-GUI::GUI(TaskDB::TaskDB &task_db)
+GUI::GUI(std::shared_ptr<TaskDB::TaskDB> task_db)
     : current_context_{START},
       window_(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TaskRaider")
 {
+    /* load file */
+    task_db->openFile("data.toml");
+
     /* ocnfigure window setting */
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(static_cast<int>(FPS));
@@ -38,6 +41,7 @@ GUI::GUI(TaskDB::TaskDB &task_db)
     io.Fonts->AddFontFromFileTTF("./resource/font/ipagp.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     ImGui::SFML::UpdateFontTexture();
+    ImGui::StyleColorsLight();
 }
 
 void GUI::loop()

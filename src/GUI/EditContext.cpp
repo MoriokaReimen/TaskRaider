@@ -5,7 +5,7 @@
 #include <cstring>
 namespace GUI
 {
-EditContext::EditContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
+EditContext::EditContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db)
     : IContext(window, task_db)
 {
 }
@@ -122,8 +122,8 @@ CONTEXT EditContext::draw(const CONTEXT &context)
         task.priority = priority;
         task.urgency = urgency;
         task.progress = progress;
-        task_db_.registerTask(task);
-        task_db_.saveFile("data.toml");
+        task_db_->registerTask(task);
+        task_db_->saveFile("data.toml");
         std::memset(task_title, 0, sizeof(task_title));
         std::memset(task_detail, 0, sizeof(task_detail));
         priority = 3;

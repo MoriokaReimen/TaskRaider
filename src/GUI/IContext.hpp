@@ -2,6 +2,7 @@
 #include <TaskDB/TaskDB.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 namespace GUI
 {
@@ -16,11 +17,11 @@ enum CONTEXT
 class IContext
 {
 protected:
-    TaskDB::TaskDB &task_db_;
+    std::shared_ptr<TaskDB::TaskDB> task_db_;
     sf::RenderWindow &window_;
 
 public:
-    IContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
+    IContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db)
         : window_(window),
           task_db_(task_db){};
     virtual ~IContext(){};

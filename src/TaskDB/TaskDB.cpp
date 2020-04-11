@@ -17,7 +17,7 @@ bool TaskDB::openFile(const std::string &file)
 {
     try
     {
-        const auto data = toml::parse("sample.toml");
+        const auto data = toml::parse(file);
         const auto tasks = toml::find<std::vector<toml::table>>(data, "TASK");
 
         for (const auto &data : tasks)

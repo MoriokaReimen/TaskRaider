@@ -17,7 +17,7 @@ class GUI
     sf::RenderWindow window_;
 
 public:
-    GUI(TaskDB::TaskDB &task_db);
+    GUI(std::shared_ptr<TaskDB::TaskDB> task_db);
     void loop();
 };
 
