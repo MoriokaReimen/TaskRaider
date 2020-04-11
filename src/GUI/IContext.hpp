@@ -24,8 +24,8 @@ public:
         : window_(window),
           task_db_(task_db){};
     virtual ~IContext(){};
-    virtual CONTEXT handleInput() = 0;
-    virtual void draw() = 0;
+    virtual CONTEXT handleInput(const CONTEXT &context) = 0;
+    virtual CONTEXT draw(const CONTEXT &context) = 0;
 };
 
 }; // namespace GUI

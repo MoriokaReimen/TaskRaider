@@ -6,8 +6,7 @@
 namespace GUI
 {
 StartContext::StartContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
-    : IContext(window, task_db),
-      next_context_(START)
+    : IContext(window, task_db)
 {
 }
 
@@ -15,8 +14,9 @@ StartContext::~StartContext()
 {
 }
 
-CONTEXT StartContext::handleInput()
+CONTEXT StartContext::handleInput(const CONTEXT &context)
 {
+    CONTEXT next_context(context);
     sf::Event event;
     while (window_.pollEvent(event))
     {
@@ -28,7 +28,7 @@ CONTEXT StartContext::handleInput()
         {
         case sf::Event::Closed:
             window_.close();
-            next_context_ = CONTEXT::CLOSE;
+            next_context = CONTEXT::CLOSE;
             break;
         default:
             break;
@@ -38,23 +38,31 @@ CONTEXT StartContext::handleInput()
     /* this block might be redundant */
     if (!window_.isOpen())
     {
-        next_context_ = CONTEXT::CLOSE;
+        next_context = CONTEXT::CLOSE;
     }
-    return next_context_;
+
+    return next_context;
 }
 
-void StartContext::draw()
+CONTEXT StartContext::draw(const CONTEXT &context)
 {
-    ImGui::SFML::Update(window_, sf::milliseconds(1000/FPS));
-    ImGui::Begin("Test");
-    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
-    ImGui::Button("押してクーナ");
-    ImGui::PopFont();
+    CONTEXT next_context(context);
+
+    ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
+    ImGui::Begin("タスク一覧");
+
+    if (ImGui::Button("新規タスク"))
+    {
+        next_context = CONTEXT::EDIT;
+    }
+
     ImGui::End();
 
     window_.clear();
     ImGui::SFML::Render(window_);
     window_.display();
+
+    return next_context;
 }
 
 }; // namespace GUI

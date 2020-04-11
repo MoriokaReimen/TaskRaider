@@ -47,14 +47,14 @@ void GUI::loop()
         const auto start_time = std::chrono::high_resolution_clock::now();
 
         /* handling input and switch contexts */
-        current_context_ = contexts_[current_context_]->handleInput();
+        current_context_ = contexts_[current_context_]->handleInput(current_context_);
         if (current_context_ == CONTEXT::CLOSE)
         {
             break;
         }
 
         /* draw context */
-        contexts_[current_context_]->draw();
+        current_context_ = contexts_[current_context_]->draw(current_context_);
 
         /* calculate delta time */
         const auto delta_time = std::chrono::high_resolution_clock::now() - start_time;
