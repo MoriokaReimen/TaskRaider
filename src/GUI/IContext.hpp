@@ -1,5 +1,7 @@
 #pragma once
 #include <TaskDB/TaskDB.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 namespace GUI
 {
@@ -13,12 +15,16 @@ enum CONTEXT
 
 class IContext
 {
-    TaskDB::TaskDB& task_db_;
+    TaskDB::TaskDB &task_db_;
+    sf::RenderWindow &window_;
+
 public:
-    IContext(TaskDB::TaskDB& task_db): task_db_(task_db) {};
-    virtual ~IContext() {};
+    IContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
+        : window_(window),
+          task_db_(task_db){};
+    virtual ~IContext(){};
     virtual CONTEXT handleInput() = 0;
     virtual void draw() = 0;
 };
 
-};
+}; // namespace GUI

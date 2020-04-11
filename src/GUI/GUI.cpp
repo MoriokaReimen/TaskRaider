@@ -2,17 +2,22 @@
 #include <chrono>
 #include <thread>
 #include <cmath>
-
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 namespace GUI
 {
 GUI::GUI(TaskDB::TaskDB &task_db)
-    : current_context_{START}
+    : current_context_{START},
+      window_(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TaskRaider")
 {
+    /* ocnfigure window setting */
+    window_.setVerticalSyncEnabled(false);
+    window_.setFramerateLimit(static_cast<int>(FPS));
 }
 
 void GUI::loop()
 {
-    const auto lag = std::chrono::milliseconds(static_cast<int>(1.0 / FPS * 1000.0));
+    const auto lag = std::chrono::milliseconds(1000 / FPS);
     while (true)
     {
         const auto start_time = std::chrono::high_resolution_clock::now();
