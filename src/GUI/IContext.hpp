@@ -29,3 +29,7 @@ public:
 };
 
 }; // namespace GUI
+
+/* Declaration fo Context siblings */
+#include <StartContext.hpp>
+#include <EditContext.hpp>

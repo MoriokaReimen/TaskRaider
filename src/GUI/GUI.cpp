@@ -4,7 +4,6 @@
 #include <cmath>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <StartContext.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
 
@@ -20,6 +19,7 @@ GUI::GUI(TaskDB::TaskDB &task_db)
 
     /* Initialize Contexts */
     contexts_[CONTEXT::START] = std::make_shared<StartContext>(window_, task_db);
+    contexts_[CONTEXT::START] = std::make_shared<EditContext>(window_, task_db);
 
     /* Initialize ImGui */
     ImGui::SFML::Init(window_);

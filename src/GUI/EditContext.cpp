@@ -1,21 +1,21 @@
-#include <StartContext.hpp>
+#include <EditContext.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <GUI.hpp>
 
 namespace GUI
 {
-StartContext::StartContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
+EditContext::EditContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
     : IContext(window, task_db),
-      next_context_(START)
+      next_context_(EDIT)
 {
 }
 
-StartContext::~StartContext()
+EditContext::~EditContext()
 {
 }
 
-CONTEXT StartContext::handleInput()
+CONTEXT EditContext::handleInput()
 {
     sf::Event event;
     while (window_.pollEvent(event))
@@ -43,9 +43,10 @@ CONTEXT StartContext::handleInput()
     return next_context_;
 }
 
-void StartContext::draw()
+void EditContext::draw()
 {
-    ImGui::SFML::Update(window_, sf::milliseconds(1000/FPS));
+
+    ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
     ImGui::Begin("Test");
     ImGui::Button("Press Me");
     ImGui::End();
