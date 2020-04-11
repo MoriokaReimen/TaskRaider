@@ -29,7 +29,8 @@ GUI::GUI(std::shared_ptr<TaskDB::TaskDB> task_db)
 
     /* Initialize Contexts */
     contexts_[CONTEXT::START] = std::make_shared<StartContext>(window_, task_db);
-    contexts_[CONTEXT::EDIT] = std::make_shared<CreateContext>(window_, task_db);
+    contexts_[CONTEXT::CREATE] = std::make_shared<CreateContext>(window_, task_db);
+    contexts_[CONTEXT::EDIT] = std::make_shared<EditContext>(window_, task_db);
 
     /* Initialize ImGui */
     ImGui::SFML::Init(window_);

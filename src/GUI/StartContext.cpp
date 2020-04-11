@@ -74,13 +74,14 @@ CONTEXT StartContext::draw(const CONTEXT &context)
         ImGui::NextColumn();
         ImGui::Text("%d", task.urgency);
         ImGui::NextColumn();
-        ImGui::ProgressBar(task.progress);
+        ImGui::ProgressBar(task.progress / 100.f);
         ImGui::NextColumn();
         ImGui::PushID(i);
         if(ImGui::Button("詳細"))
         {
             SelectTask select{i};
             bus_.notify(select);
+            next_context = CONTEXT::EDIT;
         }
         ImGui::PopID();
         ImGui::NextColumn();

@@ -11,6 +11,7 @@ namespace GUI
 enum CONTEXT
 {
     START,
+    CREATE,
     EDIT,
     CLOSE
 };
@@ -35,3 +36,4 @@ public:
 /* Declaration fo Context siblings */
 #include <StartContext.hpp>
 #include <CreateContext.hpp>
+#include <EditContext.hpp>
