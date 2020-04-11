@@ -2,7 +2,7 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <GUI.hpp>
-
+#include <cstring>
 namespace GUI
 {
 EditContext::EditContext(sf::RenderWindow &window, TaskDB::TaskDB &task_db)
@@ -46,12 +46,100 @@ CONTEXT EditContext::handleInput(const CONTEXT &context)
 
 CONTEXT EditContext::draw(const CONTEXT &context)
 {
+    static char task_title[256];
+    static char task_detail[1024];
+    static int priority = 3;
+    static int urgency = 3;
+    static int progress = 0;
+
     CONTEXT next_context(context);
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
     ImGui::Begin("新規タスク");
+    /* Show task tiltle dialogue */
+    ImGui::Text("タスク名");
+    ImGui::InputText("##タスク名", task_title, sizeof(task_title));
+
+    /* Show Detail Dialogue */
+    ImGui::Text("詳細");
+    ImGui::InputTextMultiline("##詳細", task_detail, sizeof(task_detail));
+
+    /* Show Priority Dialogue */
+    ImGui::Text("重要度");
+    ImGui::SliderInt("##重要度", &priority, 1, 5, "%d");
+    ImGui::SameLine();
+    if (ImGui::SmallButton("-##重要度"))
+    {
+        priority -= 1;
+        priority = std::clamp(priority, 1, 5);
+    }
+    ImGui::SameLine();
+    if (ImGui::SmallButton("+##重要度"))
+    {
+        priority += 1;
+        priority = std::clamp(priority, 1, 5);
+    }
+
+    /* Show Urgency Dialogue */
+    ImGui::Text("緊急度");
+    ImGui::SliderInt("##緊急度", &urgency, 1, 5, "%d");
+    ImGui::SameLine();
+    if (ImGui::SmallButton("-##緊急度"))
+    {
+        urgency -= 1;
+        urgency = std::clamp(urgency, 1, 5);
+    }
+    ImGui::SameLine();
+    if (ImGui::SmallButton("+##緊急度"))
+    {
+        urgency += 1;
+        urgency = std::clamp(urgency, 1, 5);
+    }
+
+    /* Show Progress Dialogue */
+    ImGui::Text("進行");
+    ImGui::SliderInt("##進行", &progress, 0, 100, "%d%%");
+    ImGui::SameLine();
+    if (ImGui::SmallButton("-"))
+    {
+        progress -= 10;
+        progress = (progress / 10) * 10;
+        progress = std::clamp(progress, 0, 100);
+    }
+    ImGui::SameLine();
+    if (ImGui::SmallButton("+"))
+    {
+        progress += 10;
+        progress = (progress / 10) * 10;
+        progress = std::clamp(progress, 0, 100);
+    }
+
     if (ImGui::Button("追加"))
     {
+        TaskDB::Task task;
+        task.title = std::string(task_title);
+        task.detail = std::string(task_detail);
+        task.priority = priority;
+        task.urgency = urgency;
+        task.progress = progress;
+        task_db_.registerTask(task);
+        task_db_.saveFile("data.toml");
+        std::memset(task_title, 0, sizeof(task_title));
+        std::memset(task_detail, 0, sizeof(task_detail));
+        priority = 3;
+        urgency = 3;
+        progress = 0;
+        next_context = CONTEXT::START;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("キャンセル"))
+    {
+        std::memset(task_title, 0, sizeof(task_title));
+        std::memset(task_detail, 0, sizeof(task_detail));
+        priority = 3;
+        urgency = 3;
+        progress = 0;
+        std::memset(task_title, 0, sizeof(task_title));
         next_context = CONTEXT::START;
     }
     ImGui::End();

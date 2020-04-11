@@ -36,6 +36,7 @@ GUI::GUI(TaskDB::TaskDB &task_db)
     io.Fonts->AddFontFromFileTTF("./resource/font/ipamp.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     io.Fonts->AddFontFromFileTTF("./resource/font/ipag.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     io.Fonts->AddFontFromFileTTF("./resource/font/ipagp.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     ImGui::SFML::UpdateFontTexture();
 }
 
