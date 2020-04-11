@@ -2,21 +2,8 @@
 #include "toml.hpp"
 #include <fstream>
 
-Task::Task()
-    : title(), priority(3), urgency(3), detail(), progress(0)
+namespace TaskDB
 {
-}
-
-const Task &Task::operator=(const Task &other)
-{
-    this->title = other.title;
-    this->detail = other.detail;
-    this->priority = other.priority;
-    this->urgency = other.urgency;
-    this->progress = other.progress;
-    return *this;
-}
-
 TaskDB::TaskDB()
 {
     this->openFile("");
@@ -142,3 +129,4 @@ int TaskDB::size() const
 {
     return this->tasks_.size();
 }
+};

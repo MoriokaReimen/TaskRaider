@@ -1,18 +1,9 @@
 #pragma once
 #include <vector>
 #include <string>
-
-struct Task
+#include <Task.hpp>
+namespace TaskDB
 {
-    std::string title;
-    std::string detail;
-    int priority;
-    int urgency;
-    int progress;
-    Task();
-    const Task &operator=(const Task &other);
-};
-
 class TaskDB
 {
     std::vector<Task> tasks_;
@@ -29,4 +20,5 @@ public:
     int registerTask(const Task &task);
     bool updateTask(const int &id, const Task &task);
     int size() const;
+};
 };
