@@ -21,8 +21,7 @@ set(SFML_DIR "external/SFML/")
 add_subdirectory(external/imgui-sfml)
 
 # building EventBus
-set(ENABLE_TEST OFF)
-add_subdirectory(external/EventBus)
+add_subdirectory(external/EventBus/lib)
 
 # TaskDB Library
 file(GLOB TASKDB_SRC "src/TaskDB/*.cpp" "src/TASKDB/*.hpp")
