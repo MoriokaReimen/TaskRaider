@@ -67,7 +67,7 @@ CONTEXT EditContext::draw(const CONTEXT &context)
     CONTEXT next_context(context);
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
-    ImGui::Begin("タスク小生");
+    ImGui::Begin("タスク詳細");
     /* Show task tiltle dialogue */
     ImGui::Text("タスク名");
     ImGui::InputText("##Editタスク名", task_title, sizeof(task_title));

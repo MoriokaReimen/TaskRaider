@@ -17,7 +17,8 @@ add_subdirectory(external/SFML)
 # building imgui-sfml
 set(IMGUI_SFML_FIND_SFML OFF)
 set(IMGUI_DIR "${CMAKE_CURRENT_LIST_DIR}/external/imgui/")
-set(SFML_DIR "external/SFML/")
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/external/SFML/")
+set(IMGUI_SFML_BUILD_EXAMPLES ON)
 add_subdirectory(external/imgui-sfml)
 
 # building EventBus
