@@ -19,3 +19,6 @@ Makefile
 cmake_install.cmake
 
 build/*
+
+# ImGui setting file
+imgui.ini

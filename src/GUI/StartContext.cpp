@@ -1,4 +1,7 @@
 #include <StartContext.hpp>
+#include <imgui.h>
+#include <imgui-SFML.h>
+#include <GUI.hpp>
 
 namespace GUI
 {
@@ -17,6 +20,10 @@ CONTEXT StartContext::handleInput()
     sf::Event event;
     while (window_.pollEvent(event))
     {
+        /* Handle ImGui Events */
+        ImGui::SFML::ProcessEvent(event);
+
+        /* Handle other Events */
         switch (event.type)
         {
         case sf::Event::Closed:
@@ -38,6 +45,14 @@ CONTEXT StartContext::handleInput()
 
 void StartContext::draw()
 {
+    ImGui::SFML::Update(window_, sf::milliseconds(1000/FPS));
+    ImGui::Begin("Test");
+    ImGui::Button("Press Me");
+    ImGui::End();
+
+    window_.clear();
+    ImGui::SFML::Render(window_);
+    window_.display();
 }
 
 }; // namespace GUI

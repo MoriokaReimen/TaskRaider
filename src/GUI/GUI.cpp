@@ -5,6 +5,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <StartContext.hpp>
+#include <imgui.h>
+#include <imgui-SFML.h>
+
 namespace GUI
 {
 GUI::GUI(TaskDB::TaskDB &task_db)
@@ -14,7 +17,12 @@ GUI::GUI(TaskDB::TaskDB &task_db)
     /* ocnfigure window setting */
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(static_cast<int>(FPS));
+
+    /* Initialize Contexts */
     contexts_[CONTEXT::START] = std::make_shared<StartContext>(window_, task_db);
+
+    /* Initialize ImGui */
+    ImGui::SFML::Init(window_);
 }
 
 void GUI::loop()

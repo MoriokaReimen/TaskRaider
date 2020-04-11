@@ -30,10 +30,10 @@ target_include_directories(taskdb PUBLIC "src/TaskDB/")
 file(GLOB GUI_SRC "src/GUI/*.cpp" "src/GUI/*.hpp")
 add_library(gui STATIC ${GUI_SRC})
 target_include_directories(gui PUBLIC "src/GUI/" "src/")
-target_link_libraries(gui PUBLIC sfml-graphics sfml-window sfml-system)
+target_link_libraries(gui PUBLIC sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
 
 # App Main
 file(GLOB MAIN_SRC "src/*.cpp" "src/*.hpp")
 add_executable(TaskRaider ${MAIN_SRC})
-target_link_libraries(TaskRaider taskdb gui ImGui-SFML::ImGui-SFML)
+target_link_libraries(TaskRaider taskdb gui)
 target_include_directories(TaskRaider PRIVATE src/)
