@@ -11,3 +11,10 @@
 	path = external/SFML
 	url = https://github.com/SFML/SFML.git
 	branch = 2.5.1
+
+[submodule "external/imgui-sfml"]
+	path = external/imgui-sfml
+	url = https://github.com/eliasdaler/imgui-sfml.git
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/ocornut/imgui.git
