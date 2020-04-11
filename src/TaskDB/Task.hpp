@@ -16,4 +16,4 @@ struct Task
     const Task &operator=(const Task &other);
 };
 
-}; // namespace TaskDB
+} // namespace TaskDB

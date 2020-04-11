@@ -69,4 +69,4 @@ void GUI::loop()
         std::this_thread::sleep_until(end_time);
     }
 }
-}; // namespace GUI
+} // namespace GUI

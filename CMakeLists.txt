@@ -20,6 +20,10 @@ set(IMGUI_DIR "${CMAKE_CURRENT_LIST_DIR}/external/imgui/")
 set(SFML_DIR "external/SFML/")
 add_subdirectory(external/imgui-sfml)
 
+# building EventBus
+set(ENABLE_TEST OFF)
+add_subdirectory(external/EventBus)
+
 # TaskDB Library
 file(GLOB TASKDB_SRC "src/TaskDB/*.cpp" "src/TASKDB/*.hpp")
 add_library( taskdb STATIC ${TASKDB_SRC})
@@ -30,7 +34,7 @@ target_include_directories(taskdb PUBLIC "src/TaskDB/")
 file(GLOB GUI_SRC "src/GUI/*.cpp" "src/GUI/*.hpp")
 add_library(gui STATIC ${GUI_SRC})
 target_include_directories(gui PUBLIC "src/GUI/" "src/")
-target_link_libraries(gui PUBLIC sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
+target_link_libraries(gui PUBLIC sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML Dexode::EventBus)
 
 # App Main
 file(GLOB MAIN_SRC "src/*.cpp" "src/*.hpp")

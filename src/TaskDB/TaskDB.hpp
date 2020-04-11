@@ -22,4 +22,4 @@ public:
     int size() const;
     std::string render(const std::string &tmpl) const;
 };
-}; // namespace TaskDB
+} // namespace TaskDB

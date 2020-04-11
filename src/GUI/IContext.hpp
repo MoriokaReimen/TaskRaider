@@ -17,8 +17,8 @@ enum CONTEXT
 class IContext
 {
 protected:
-    std::shared_ptr<TaskDB::TaskDB> task_db_;
     sf::RenderWindow &window_;
+    std::shared_ptr<TaskDB::TaskDB> task_db_;
 
 public:
     IContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db)
@@ -29,7 +29,7 @@ public:
     virtual CONTEXT draw(const CONTEXT &context) = 0;
 };
 
-}; // namespace GUI
+} // namespace GUI
 
 /* Declaration fo Context siblings */
 #include <StartContext.hpp>

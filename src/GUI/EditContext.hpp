@@ -14,4 +14,4 @@ public:
     CONTEXT draw(const CONTEXT &context) override;
 };
 
-}; // namespace GUI
+} // namespace GUI

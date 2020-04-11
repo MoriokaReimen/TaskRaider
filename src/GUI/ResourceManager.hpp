@@ -30,4 +30,4 @@ public:
 
 inline ResourceManager resource;
 
-}; // namespace GUI
+} // namespace GUI

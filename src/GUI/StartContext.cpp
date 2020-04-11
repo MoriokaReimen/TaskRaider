@@ -92,4 +92,4 @@ CONTEXT StartContext::draw(const CONTEXT &context)
     return next_context;
 }
 
-}; // namespace GUI
+} // namespace GUI

@@ -110,4 +110,4 @@ std::string &ResourceManager::getText(const std::string &name)
     return texts_[name];
 }
 
-}; // namespace GUI
+} // namespace GUI

@@ -21,4 +21,4 @@ public:
     void loop();
 };
 
-}; // namespace GUI
+} // namespace GUI
