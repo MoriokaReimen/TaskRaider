@@ -5,10 +5,9 @@
 Task::Task()
     : title(), priority(3), urgency(3), detail(), progress(0)
 {
-
 }
 
-const Task& Task::operator=(const Task& other)
+const Task &Task::operator=(const Task &other)
 {
     this->title = other.title;
     this->detail = other.detail;
@@ -21,21 +20,21 @@ const Task& Task::operator=(const Task& other)
 TaskDB::TaskDB()
 {
     this->openFile("");
-
 }
 
 TaskDB::~TaskDB()
 {
-
 }
 
-bool TaskDB::openFile(const std::string& file)
+bool TaskDB::openFile(const std::string &file)
 {
-    try {
+    try
+    {
         const auto data = toml::parse("sample.toml");
         const auto tasks = toml::find<std::vector<toml::table>>(data, "TASK");
 
-        for(const auto& data : tasks) {
+        for (const auto &data : tasks)
+        {
             Task temp;
             temp.title = data.at("title").as_string();
             temp.detail = data.at("detail").as_string();
@@ -45,19 +44,23 @@ bool TaskDB::openFile(const std::string& file)
             this->tasks_.emplace_back(temp);
         }
         this->is_open_ = true;
-    } catch(...) {
+    }
+    catch (...)
+    {
         this->is_open_ = false;
     }
 
     return this->is_open_;
 }
 
-bool TaskDB::saveFile(const std::string& file)
+bool TaskDB::saveFile(const std::string &file)
 {
     bool ret;
     toml::array out_data;
-    try {
-        for(const auto& data : this->tasks_) {
+    try
+    {
+        for (const auto &data : this->tasks_)
+        {
             toml::table temp{
                 {"title", data.title},
                 {"detail", data.detail},
@@ -72,18 +75,18 @@ bool TaskDB::saveFile(const std::string& file)
         ofs << write_data;
         ofs.close();
         ret = true;
-    } catch(...) {
+    }
+    catch (...)
+    {
         ret = false;
     }
 
     return ret;
-
 }
 
 void TaskDB::closeFile()
 {
     this->is_open_ = false;
-
 }
 
 bool TaskDB::isOpen() const
@@ -91,37 +94,45 @@ bool TaskDB::isOpen() const
     return this->is_open_;
 }
 
-Task TaskDB::queryTask(const int& id) const
+Task TaskDB::queryTask(const int &id) const
 {
     Task task;
-    try {
+    try
+    {
         task = this->tasks_[id];
-    } catch(...) {
+    }
+    catch (...)
+    {
     }
 
     return task;
 }
 
-int TaskDB::registerTask(const Task& task)
+int TaskDB::registerTask(const Task &task)
 {
     int id;
-    try {
+    try
+    {
         this->tasks_.push_back(task);
-        id =  this->tasks_.size() - 1;
-
-    } catch(...) {
+        id = this->tasks_.size() - 1;
+    }
+    catch (...)
+    {
         id = -1;
     }
     return id;
 }
 
-bool TaskDB::updateTask(const int& id, const Task& task)
+bool TaskDB::updateTask(const int &id, const Task &task)
 {
     bool ret;
-    try {
+    try
+    {
         this->tasks_[id] = task;
         ret = true;
-    } catch(...) {
+    }
+    catch (...)
+    {
         ret = false;
     }
     return ret;
