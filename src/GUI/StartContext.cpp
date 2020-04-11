@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <GUI.hpp>
+#include <Event.hpp>
 
 namespace GUI
 {
@@ -52,7 +53,7 @@ CONTEXT StartContext::draw(const CONTEXT &context)
     ImGui::Begin("タスク一覧");
 
     /* List All tasks in db */
-    ImGui::Columns(4);
+    ImGui::Columns(5);
     ImGui::Separator();
     ImGui::Text("タスク名");
     ImGui::NextColumn();
@@ -61,6 +62,7 @@ CONTEXT StartContext::draw(const CONTEXT &context)
     ImGui::Text("緊急性");
     ImGui::NextColumn();
     ImGui::Text("進行");
+    ImGui::NextColumn();
     ImGui::NextColumn();
     ImGui::Separator();
     for (int i = 0; i < task_db_->size(); i++)
@@ -73,6 +75,14 @@ CONTEXT StartContext::draw(const CONTEXT &context)
         ImGui::Text("%d", task.urgency);
         ImGui::NextColumn();
         ImGui::ProgressBar(task.progress);
+        ImGui::NextColumn();
+        ImGui::PushID(i);
+        if(ImGui::Button("詳細"))
+        {
+            SelectTask select{i};
+            bus_.notify(select);
+        }
+        ImGui::PopID();
         ImGui::NextColumn();
         ImGui::Separator();
     }

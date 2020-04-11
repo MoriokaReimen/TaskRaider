@@ -4,12 +4,12 @@
 namespace GUI
 {
 
-class EditContext : public IContext
+class CreateContext : public IContext
 {
 
 public:
-    EditContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db);
-    ~EditContext() override;
+    CreateContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db);
+    ~CreateContext() override;
     CONTEXT handleInput(const CONTEXT &context) override;
     CONTEXT draw(const CONTEXT &context) override;
 };

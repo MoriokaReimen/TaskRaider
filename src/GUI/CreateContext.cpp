@@ -1,20 +1,24 @@
-#include <EditContext.hpp>
+#include <CreateContext.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <GUI.hpp>
 #include <cstring>
+#include <Event.hpp>
+#include <iostream>
+
 namespace GUI
 {
-EditContext::EditContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db)
+CreateContext::CreateContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db)
     : IContext(window, task_db)
 {
+    bus_.listen<SelectTask>([](const SelectTask& select){std::cout << select.id << std::endl;});
 }
 
-EditContext::~EditContext()
+CreateContext::~CreateContext()
 {
 }
 
-CONTEXT EditContext::handleInput(const CONTEXT &context)
+CONTEXT CreateContext::handleInput(const CONTEXT &context)
 {
     CONTEXT next_context(context);
     sf::Event event;
@@ -44,7 +48,7 @@ CONTEXT EditContext::handleInput(const CONTEXT &context)
     return next_context;
 }
 
-CONTEXT EditContext::draw(const CONTEXT &context)
+CONTEXT CreateContext::draw(const CONTEXT &context)
 {
     static char task_title[256];
     static char task_detail[1024];
