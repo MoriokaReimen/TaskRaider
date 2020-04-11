@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
+#include <ResourceManager.hpp>
 
 namespace GUI
 {
@@ -17,12 +18,25 @@ GUI::GUI(TaskDB::TaskDB &task_db)
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(static_cast<int>(FPS));
 
+    /* Initialize Resource */
+    resource.loadFont("./resource/font/ipag.ttf", "ipag");
+    resource.loadFont("./resource/font/ipagp.ttf", "ipagp");
+    resource.loadFont("./resource/font/ipam.ttf", "ipam");
+    resource.loadFont("./resource/font/ipamp.ttf", "ipamp");
+
     /* Initialize Contexts */
     contexts_[CONTEXT::START] = std::make_shared<StartContext>(window_, task_db);
-    contexts_[CONTEXT::START] = std::make_shared<EditContext>(window_, task_db);
+    contexts_[CONTEXT::EDIT] = std::make_shared<EditContext>(window_, task_db);
 
     /* Initialize ImGui */
     ImGui::SFML::Init(window_);
+    auto io = ImGui::GetIO();
+    io.Fonts->Clear();
+    io.Fonts->AddFontFromFileTTF("./resource/font/ipam.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    io.Fonts->AddFontFromFileTTF("./resource/font/ipamp.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    io.Fonts->AddFontFromFileTTF("./resource/font/ipag.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    io.Fonts->AddFontFromFileTTF("./resource/font/ipagp.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    ImGui::SFML::UpdateFontTexture();
 }
 
 void GUI::loop()

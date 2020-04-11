@@ -47,7 +47,9 @@ void StartContext::draw()
 {
     ImGui::SFML::Update(window_, sf::milliseconds(1000/FPS));
     ImGui::Begin("Test");
-    ImGui::Button("Press Me");
+    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
+    ImGui::Button("押してクーナ");
+    ImGui::PopFont();
     ImGui::End();
 
     window_.clear();
