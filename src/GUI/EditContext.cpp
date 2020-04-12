@@ -146,7 +146,9 @@ CONTEXT EditContext::draw(const CONTEXT &context)
         TaskDB::Task task;
         task.enable = true;
         task.title = std::string(task_title);
+        task.title.erase(task.title.find_last_not_of(" \r\n\f\v"));
         task.detail = std::string(task_detail);
+        task.detail.erase(task.detail.find_last_not_of(" \r\n\f\v"));
         task.priority = priority;
         task.urgency = urgency;
         task.progress = progress;
