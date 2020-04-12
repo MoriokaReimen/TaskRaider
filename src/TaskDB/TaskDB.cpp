@@ -2,9 +2,23 @@
 #include "toml.hpp"
 #include <fstream>
 #include <Jinja2CppLight.h>
+#include <algorithm>
 
 namespace TaskDB
 {
+
+void TaskDB::sortTask()
+{
+    std::sort(tasks_.begin(), tasks_.end(),
+    [](const Task& lhs, const Task& rhs){
+        auto lhs_point = lhs.priority * lhs.urgency;
+        auto rhs_point = rhs.priority * rhs.urgency;
+
+        return rhs_point < lhs_point;
+    });
+
+}
+
 TaskDB::TaskDB()
 {
     this->openFile("");
@@ -42,7 +56,7 @@ bool TaskDB::openFile(const std::string &file)
     {
         this->is_open_ = false;
     }
-
+    this->sortTask();
     return this->is_open_;
 }
 
@@ -50,6 +64,7 @@ bool TaskDB::saveFile(const std::string &file)
 {
     bool ret;
     toml::array out_data;
+    this->sortTask();
     try
     {
         for (const auto &data : this->tasks_)
@@ -145,12 +160,14 @@ std::string TaskDB::render() const
 {
     std::stringstream ss;
     ss << this->mail_head_;
+    int number = 1;
     for (int i = 0; i < this->size(); i++)
     {
         const Task task = this->queryTask(i);
         if(!task.enable) continue; /* skip disabled task */
         Jinja2CppLight::Template jinja(this->mail_body_);
-        jinja.setValue("id", i+1);
+        jinja.setValue("number", number);
+        number++;
         jinja.setValue("enable", task.enable);
         jinja.setValue("title", task.title);
         jinja.setValue("detail", task.detail);

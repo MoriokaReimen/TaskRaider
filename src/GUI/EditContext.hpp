@@ -8,7 +8,7 @@ namespace GUI
 class EditContext : public IContext
 {
     char task_title[256];
-    char task_detail[1024];
+    char task_detail[4096];
     int priority = 3;
     int urgency = 3;
     int progress = 0;

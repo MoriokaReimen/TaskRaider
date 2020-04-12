@@ -11,7 +11,7 @@ class TaskDB
     std::string mail_head_;
     std::string mail_body_;
     std::string mail_foot_;
-
+    void sortTask();
 public:
     TaskDB();
     ~TaskDB();

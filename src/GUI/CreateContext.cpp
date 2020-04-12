@@ -52,7 +52,7 @@ CONTEXT CreateContext::handleInput(const CONTEXT &context)
 CONTEXT CreateContext::draw(const CONTEXT &context)
 {
     static char task_title[256];
-    static char task_detail[1024];
+    static char task_detail[4096];
     static int priority = 3;
     static int urgency = 3;
     static int progress = 0;

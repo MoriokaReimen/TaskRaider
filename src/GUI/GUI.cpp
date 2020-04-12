@@ -43,7 +43,7 @@ GUI::GUI(std::shared_ptr<TaskDB::TaskDB> task_db)
     io.Fonts->AddFontFromFileTTF("./resource/font/ipagp.ttf", 20.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     ImGui::SFML::UpdateFontTexture();
-    ImGui::StyleColorsLight();
+    ImGui::StyleColorsDark();
 }
 
 void GUI::loop()
