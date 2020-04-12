@@ -60,6 +60,9 @@ CONTEXT PreviewContext::draw(const CONTEXT &context)
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
     ImGui::Begin("メールプレビュー");
+    ImGui::SetWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT));
+    ImGui::SetWindowPos(ImVec2(0, 0));
+
     std::memmove(mail, this->mail_.c_str(), this->mail_.size());
     ImGui::InputTextMultiline("##文面", mail, sizeof(mail));
 

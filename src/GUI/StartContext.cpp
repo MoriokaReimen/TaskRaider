@@ -51,6 +51,8 @@ CONTEXT StartContext::draw(const CONTEXT &context)
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
     ImGui::Begin("タスク一覧");
+    ImGui::SetWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT));
+    ImGui::SetWindowPos(ImVec2(0, 0));
 
     /* List All tasks in db */
     ImGui::Columns(5);

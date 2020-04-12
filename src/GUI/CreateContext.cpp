@@ -62,6 +62,9 @@ CONTEXT CreateContext::draw(const CONTEXT &context)
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
     ImGui::Begin("新規タスク");
+    ImGui::SetWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT));
+    ImGui::SetWindowPos(ImVec2(0, 0));
+
     /* Show task tiltle dialogue */
     ImGui::Text("タスク名");
     ImGui::InputText("##タスク名", task_title, sizeof(task_title));
