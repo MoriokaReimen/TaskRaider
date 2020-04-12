@@ -59,7 +59,9 @@ CONTEXT PreviewContext::draw(const CONTEXT &context)
     CONTEXT next_context(context);
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
-    ImGui::Begin("メールプレビュー");
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;  
+    ImGui::Begin("メールプレビュー", nullptr, window_flags);
     ImGui::SetWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT));
     ImGui::SetWindowPos(ImVec2(0, 0));
 

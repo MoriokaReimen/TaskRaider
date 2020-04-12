@@ -8,8 +8,8 @@
 namespace GUI
 {
 inline const int FPS{20}; /* frame per second */
-inline const int WINDOW_WIDTH{800};
-inline const int WINDOW_HEIGHT{600};
+inline const int WINDOW_WIDTH{1120};
+inline const int WINDOW_HEIGHT{700};
 class GUI
 {
     std::map<CONTEXT, std::shared_ptr<IContext>> contexts_;

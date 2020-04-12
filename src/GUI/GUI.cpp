@@ -12,7 +12,7 @@ namespace GUI
 {
 GUI::GUI(std::shared_ptr<TaskDB::TaskDB> task_db)
     : current_context_{START},
-      window_(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TaskRaider")
+      window_(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TaskRaider", sf::Style::Titlebar | sf::Style::Close)
 {
     /* load file */
     task_db->openFile("data.toml");

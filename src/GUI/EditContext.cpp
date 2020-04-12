@@ -68,7 +68,9 @@ CONTEXT EditContext::draw(const CONTEXT &context)
     CONTEXT next_context(context);
 
     ImGui::SFML::Update(window_, sf::milliseconds(1000 / FPS));
-    ImGui::Begin("タスク詳細");
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;  
+    ImGui::Begin("タスク詳細", nullptr, window_flags);
     ImGui::SetWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT));
     ImGui::SetWindowPos(ImVec2(0, 0));
 
@@ -156,7 +158,10 @@ CONTEXT EditContext::draw(const CONTEXT &context)
         task.urgency = urgency;
         task.progress = progress;
         task.man_hour = man_hour;
-        task_db_->updateTask(select_id_, task);
+        if(!task.title.empty())
+        {
+            task_db_->updateTask(select_id_, task);
+        }
         task_db_->saveFile("data.toml");
         std::memset(task_title, 0, sizeof(task_title));
         std::memset(task_detail, 0, sizeof(task_detail));
