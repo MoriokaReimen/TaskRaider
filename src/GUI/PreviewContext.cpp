@@ -62,12 +62,8 @@ CONTEXT PreviewContext::draw(const CONTEXT &context)
     ImGui::Begin("メールプレビュー");
     std::memmove(mail, this->mail_.c_str(), this->mail_.size());
     ImGui::InputTextMultiline("##文面", mail, sizeof(mail));
-    if (ImGui::Button("出力"))
-    {
-        next_context = CONTEXT::START;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("キャンセル"))
+
+    if (ImGui::Button("戻る"))
     {
         next_context = CONTEXT::START;
     }

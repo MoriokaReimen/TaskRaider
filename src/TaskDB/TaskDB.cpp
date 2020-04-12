@@ -145,7 +145,7 @@ std::string TaskDB::render() const
     {
         const Task task = this->queryTask(i);
         Jinja2CppLight::Template jinja(this->mail_body_);
-        jinja.setValue("id", i);
+        jinja.setValue("id", i+1);
         jinja.setValue("title", task.title);
         jinja.setValue("detail", task.detail);
         jinja.setValue("priority", task.priority);
