@@ -10,6 +10,9 @@ add_subdirectory(external/googletest)
 set(toml11_BUILD_TEST OFF)
 add_subdirectory(external/toml)
 
+# building json
+add_subdirectory(external/Jinja2CppLight)
+
 # building SFML
 set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(external/SFML)
@@ -18,7 +21,7 @@ add_subdirectory(external/SFML)
 set(IMGUI_SFML_FIND_SFML OFF)
 set(IMGUI_DIR "${CMAKE_CURRENT_LIST_DIR}/external/imgui/")
 set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/external/SFML/")
-set(IMGUI_SFML_BUILD_EXAMPLES ON)
+set(IMGUI_SFML_BUILD_EXAMPLES OFF)
 add_subdirectory(external/imgui-sfml)
 
 # building EventBus
@@ -27,7 +30,7 @@ add_subdirectory(external/EventBus/lib)
 # TaskDB Library
 file(GLOB TASKDB_SRC "src/TaskDB/*.cpp" "src/TASKDB/*.hpp")
 add_library( taskdb STATIC ${TASKDB_SRC})
-target_link_libraries(taskdb toml11)
+target_link_libraries(taskdb PRIVATE toml11 Jinja2CppLight)
 target_include_directories(taskdb PUBLIC "src/TaskDB/")
 
 # GUI Library

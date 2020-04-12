@@ -21,3 +21,6 @@
 [submodule "external/EventBus"]
 	path = external/EventBus
 	url = https://github.com/gelldur/EventBus.git
+[submodule "external/Jinja2CppLight"]
+	path = external/Jinja2CppLight
+	url = https://github.com/hughperkins/Jinja2CppLight.git
