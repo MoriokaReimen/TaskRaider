@@ -1,0 +1,48 @@
+MAIL_FOOT = """
+
+敬具\
+"""
+MAIL_BODY = """
+{{title}}
+進行:{{progress}}%
+総工数:{{man_hour}}時間
+{{detail}}
+
+\
+"""
+MAIL_HEAD = """
+本日の日報です。
+\
+"""
+[[TASK]]
+progress = 20
+urgency = 2
+detail = "dasf"
+man_hour = 1.5
+priority = 4
+title = "dasf"
+enable = false
+[[TASK]]
+progress = 50
+urgency = 5
+detail = "dfasfas"
+man_hour = 4.0
+priority = 2
+title = "dsafdas"
+enable = false
+[[TASK]]
+progress = 30
+urgency = 1
+detail = "dasfsa"
+man_hour = 2.5
+priority = 5
+title = "dsaf"
+enable = true
+[[TASK]]
+progress = 20
+urgency = 1
+detail = "df"
+man_hour = 2.0
+priority = 5
+title = "dsaf"
+enable = true
