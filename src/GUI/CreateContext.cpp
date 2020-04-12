@@ -55,6 +55,7 @@ CONTEXT CreateContext::draw(const CONTEXT &context)
     static int priority = 3;
     static int urgency = 3;
     static int progress = 0;
+    static float man_hour = 0.f;
 
     CONTEXT next_context(context);
 
@@ -121,11 +122,13 @@ CONTEXT CreateContext::draw(const CONTEXT &context)
     if (ImGui::Button("追加"))
     {
         TaskDB::Task task;
+        task.enable = true;
         task.title = std::string(task_title);
         task.detail = std::string(task_detail);
         task.priority = priority;
         task.urgency = urgency;
         task.progress = progress;
+        task.man_hour = 0.0;
         task_db_->registerTask(task);
         task_db_->saveFile("data.toml");
         std::memset(task_title, 0, sizeof(task_title));

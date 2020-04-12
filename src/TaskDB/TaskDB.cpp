@@ -24,11 +24,13 @@ bool TaskDB::openFile(const std::string &file)
         for (const auto &data : tasks)
         {
             Task temp;
+            temp.enable = data.at("enable").as_boolean();
             temp.title = data.at("title").as_string();
             temp.detail = data.at("detail").as_string();
             temp.priority = data.at("priority").as_integer();
             temp.urgency = data.at("urgency").as_integer();
             temp.progress = data.at("progress").as_integer();
+            temp.man_hour = data.at("man_hour").as_floating();
             this->tasks_.emplace_back(temp);
         }
         this->mail_head_ = toml::find<std::string>(data, "MAIL_HEAD");
@@ -53,11 +55,13 @@ bool TaskDB::saveFile(const std::string &file)
         for (const auto &data : this->tasks_)
         {
             toml::table temp{
+                {"enable", data.enable},
                 {"title", data.title},
                 {"detail", data.detail},
                 {"priority", data.priority},
                 {"urgency", data.urgency},
                 {"progress", data.progress},
+                {"man_hour", data.man_hour},
             };
             out_data.push_back(temp);
         }
@@ -146,11 +150,13 @@ std::string TaskDB::render() const
         const Task task = this->queryTask(i);
         Jinja2CppLight::Template jinja(this->mail_body_);
         jinja.setValue("id", i+1);
+        jinja.setValue("enable", task.enable);
         jinja.setValue("title", task.title);
         jinja.setValue("detail", task.detail);
         jinja.setValue("priority", task.priority);
         jinja.setValue("urgency", task.urgency);
         jinja.setValue("progress", task.progress);
+        jinja.setValue("man_hour", task.man_hour);
         ss << jinja.render();
     }
     ss << this->mail_foot_;

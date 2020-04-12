@@ -91,7 +91,7 @@ CONTEXT StartContext::draw(const CONTEXT &context)
 
     if (ImGui::Button("新規タスク"))
     {
-        next_context = CONTEXT::EDIT;
+        next_context = CONTEXT::CREATE;
     }
     ImGui::SameLine();
     if (ImGui::Button("メール文面生成"))

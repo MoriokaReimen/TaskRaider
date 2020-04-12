@@ -30,6 +30,7 @@ void EditContext::set_select(const SelectTask &select)
     priority = task.priority;
     urgency = task.urgency;
     progress = task.progress;
+    man_hour = task.man_hour;
 }
 
 CONTEXT EditContext::handleInput(const CONTEXT &context)
@@ -108,6 +109,20 @@ CONTEXT EditContext::draw(const CONTEXT &context)
         urgency = std::clamp(urgency, 1, 5);
     }
 
+    /* Show Man Hour */
+    ImGui::Text("総工数");
+    ImGui::Text("%4.1f 時間", man_hour);
+    ImGui::SameLine();
+    if (ImGui::SmallButton("-##Edit総工数"))
+    {
+        man_hour -= 0.5;
+    }
+    ImGui::SameLine();
+    if (ImGui::SmallButton("+##Edit総工数"))
+    {
+        man_hour += 0.5;
+    }
+
     /* Show Progress Dialogue */
     ImGui::Text("進行");
     ImGui::SliderInt("##Edit進行", &progress, 0, 100, "%d%%");
@@ -129,11 +144,13 @@ CONTEXT EditContext::draw(const CONTEXT &context)
     if (ImGui::Button("保存##Edit"))
     {
         TaskDB::Task task;
+        task.enable = true;
         task.title = std::string(task_title);
         task.detail = std::string(task_detail);
         task.priority = priority;
         task.urgency = urgency;
         task.progress = progress;
+        task.man_hour = man_hour;
         task_db_->updateTask(select_id_, task);
         task_db_->saveFile("data.toml");
         std::memset(task_title, 0, sizeof(task_title));
@@ -143,6 +160,7 @@ CONTEXT EditContext::draw(const CONTEXT &context)
         priority = 3;
         urgency = 3;
         progress = 0;
+        man_hour = 0;
         next_context = CONTEXT::START;
     }
     ImGui::SameLine();
@@ -153,6 +171,7 @@ CONTEXT EditContext::draw(const CONTEXT &context)
         priority = 3;
         urgency = 3;
         progress = 0;
+        man_hour = 0;
         std::memset(task_title, 0, sizeof(task_title));
         next_context = CONTEXT::START;
     }

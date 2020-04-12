@@ -13,6 +13,7 @@ class EditContext : public IContext
     int urgency = 3;
     int progress = 0;
     int select_id_;
+    float man_hour;
     void set_select(const SelectTask& select);
 public:
     EditContext(sf::RenderWindow &window, std::shared_ptr<TaskDB::TaskDB> task_db);

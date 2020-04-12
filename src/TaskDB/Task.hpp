@@ -6,12 +6,13 @@ namespace TaskDB
 {
 struct Task
 {
+    bool enable;
     std::string title;
     std::string detail;
     int priority;
     int urgency;
     int progress;
-    std::vector<int> children;
+    float man_hour;
     Task();
     const Task &operator=(const Task &other);
 };
