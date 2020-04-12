@@ -6,4 +6,8 @@ namespace GUI
     {
         int id;
     };
+
+    struct GenerateMail
+    {
+    };
 }

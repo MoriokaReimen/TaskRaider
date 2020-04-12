@@ -13,6 +13,7 @@ enum CONTEXT
     START,
     CREATE,
     EDIT,
+    PREVIEW,
     CLOSE
 };
 
@@ -37,3 +38,4 @@ public:
 #include <StartContext.hpp>
 #include <CreateContext.hpp>
 #include <EditContext.hpp>
+#include <PreviewContext.hpp>

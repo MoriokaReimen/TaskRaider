@@ -93,6 +93,12 @@ CONTEXT StartContext::draw(const CONTEXT &context)
     {
         next_context = CONTEXT::EDIT;
     }
+    ImGui::SameLine();
+    if (ImGui::Button("メール文面生成"))
+    {
+        bus_.notify(GenerateMail());
+        next_context = CONTEXT::PREVIEW;
+    }
 
     ImGui::End();
 
