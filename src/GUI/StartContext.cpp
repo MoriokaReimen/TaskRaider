@@ -67,7 +67,8 @@ CONTEXT StartContext::draw(const CONTEXT &context)
     ImGui::Separator();
     for (int i = 0; i < task_db_->size(); i++)
     {
-        const TaskDB::Task task = task_db_->queryTask(i);
+        TaskDB::Task task = task_db_->queryTask(i);
+        if(!task.enable) continue; /* skip disabled task */
         ImGui::Text("%s", task.title.c_str());
         ImGui::NextColumn();
         ImGui::Text("%d", task.priority);
@@ -75,6 +76,7 @@ CONTEXT StartContext::draw(const CONTEXT &context)
         ImGui::Text("%d", task.urgency);
         ImGui::NextColumn();
         ImGui::ProgressBar(task.progress / 100.f);
+        ImGui::Text("総工数: %4.1f 時間", task.man_hour);
         ImGui::NextColumn();
         ImGui::PushID(i);
         if(ImGui::Button("詳細"))
@@ -82,6 +84,13 @@ CONTEXT StartContext::draw(const CONTEXT &context)
             SelectTask select{i};
             bus_.notify(select);
             next_context = CONTEXT::EDIT;
+        }
+
+        if(ImGui::Button("無効化"))
+        {
+            task.enable = false;
+            task_db_->updateTask(i, task);
+            task_db_->saveFile("data.toml");
         }
         ImGui::PopID();
         ImGui::NextColumn();

@@ -148,6 +148,7 @@ std::string TaskDB::render() const
     for (int i = 0; i < this->size(); i++)
     {
         const Task task = this->queryTask(i);
+        if(!task.enable) continue; /* skip disabled task */
         Jinja2CppLight::Template jinja(this->mail_body_);
         jinja.setValue("id", i+1);
         jinja.setValue("enable", task.enable);
