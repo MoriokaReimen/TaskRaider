@@ -8,6 +8,9 @@ class TaskDB
 {
     std::vector<Task> tasks_;
     bool is_open_;
+    std::string mail_head_;
+    std::string mail_body_;
+    std::string mail_foot_;
 
 public:
     TaskDB();
@@ -20,6 +23,6 @@ public:
     int registerTask(const Task &task);
     bool updateTask(const int &id, const Task &task);
     int size() const;
-    std::string render(const std::string &tmpl) const;
+    std::string render() const;
 };
 } // namespace TaskDB

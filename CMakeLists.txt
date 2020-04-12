@@ -32,6 +32,7 @@ file(GLOB TASKDB_SRC "src/TaskDB/*.cpp" "src/TASKDB/*.hpp")
 add_library( taskdb STATIC ${TASKDB_SRC})
 target_link_libraries(taskdb PRIVATE toml11 Jinja2CppLight)
 target_include_directories(taskdb PUBLIC "src/TaskDB/")
+target_include_directories(taskdb PRIVATE "external/Jinja2CppLight/src")
 
 # GUI Library
 file(GLOB GUI_SRC "src/GUI/*.cpp" "src/GUI/*.hpp")

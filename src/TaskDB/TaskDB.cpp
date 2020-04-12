@@ -1,6 +1,7 @@
 #include "TaskDB.hpp"
 #include "toml.hpp"
 #include <fstream>
+#include <Jinja2CppLight.h>
 
 namespace TaskDB
 {
@@ -30,6 +31,9 @@ bool TaskDB::openFile(const std::string &file)
             temp.progress = data.at("progress").as_integer();
             this->tasks_.emplace_back(temp);
         }
+        this->mail_head_ = toml::find<std::string>(data, "MAIL_HEAD");
+        this->mail_body_ = toml::find<std::string>(data, "MAIL_BODY");
+        this->mail_foot_ = toml::find<std::string>(data, "MAIL_FOOT");
         this->is_open_ = true;
     }
     catch (...)
@@ -57,7 +61,10 @@ bool TaskDB::saveFile(const std::string &file)
             };
             out_data.push_back(temp);
         }
-        toml::value write_data{{"TASK", out_data}};
+        toml::value write_data{{"TASK", out_data},
+                               {"MAIL_HEAD", this->mail_head_},
+                               {"MAIL_BODY", this->mail_body_},
+                               {"MAIL_FOOT", this->mail_foot_}};
         std::ofstream ofs(file);
         ofs << write_data;
         ofs.close();
@@ -130,10 +137,24 @@ int TaskDB::size() const
     return this->tasks_.size();
 }
 
-std::string TaskDB::render(const std::string &tmpl) const
+std::string TaskDB::render() const
 {
-    std::string message;
+    std::stringstream ss;
+    ss << this->mail_head_;
+    for (int i = 0; i < this->size(); i++)
+    {
+        const Task task = this->queryTask(i);
+        Jinja2CppLight::Template jinja(this->mail_body_);
 
-    return message;
+        jinja.setValue("title", task.title);
+        jinja.setValue("detail", task.detail);
+        jinja.setValue("priority", task.priority);
+        jinja.setValue("urgency", task.urgency);
+        jinja.setValue("progress", task.progress);
+        ss << jinja.render();
+    }
+    ss << this->mail_foot_;
+
+    return ss.str();
 }
-};
+}; // namespace TaskDB
